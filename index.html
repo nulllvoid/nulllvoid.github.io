@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DataPipe — Build Resilient Data Pipelines in Go</title>
+<title>nulllvoid — Open Source Go Libraries</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -20,7 +20,6 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -30,9 +29,11 @@
     font-size: 17px;
     line-height: 1.75;
     overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* Grid noise overlay */
   body::before {
     content: '';
     position: fixed;
@@ -51,42 +52,32 @@
     padding: 0 24px;
     position: relative;
     z-index: 1;
+    flex: 1;
   }
 
-  /* ── HEADER ── */
   header {
-    padding: 80px 0 60px;
-    position: relative;
+    padding: 100px 0 64px;
   }
 
-  .tag-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-  }
-
-  .tag {
+  .logo {
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
+    font-size: 13px;
+    color: var(--muted);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 2px;
-    border: 1px solid;
+    margin-bottom: 40px;
   }
-  .tag-go    { color: var(--accent2); border-color: var(--accent2); background: rgba(91,196,245,0.07); }
-  .tag-open  { color: var(--accent);  border-color: var(--accent);  background: rgba(127,255,178,0.07); }
-  .tag-new   { color: var(--accent3); border-color: var(--accent3); background: rgba(255,107,107,0.07); }
+
+  .logo span { color: var(--accent); }
 
   h1 {
     font-family: 'Fraunces', serif;
-    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-size: clamp(2.4rem, 6vw, 3.4rem);
     font-weight: 900;
     line-height: 1.08;
     letter-spacing: -0.02em;
-    margin-bottom: 20px;
     color: #fff;
+    margin-bottom: 20px;
   }
 
   h1 em {
@@ -95,683 +86,218 @@
   }
 
   .subtitle {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--muted);
     font-weight: 300;
-    max-width: 580px;
+    max-width: 520px;
     line-height: 1.6;
   }
 
-  .meta {
-    margin-top: 36px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  .meta::before {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* ── HERO VISUAL ── */
-  .hero-code {
-    margin: 48px 0;
-    background: var(--code-bg);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 6px;
-    padding: 28px 32px;
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    line-height: 1.9;
-    overflow-x: auto;
-    position: relative;
-  }
-
-  .hero-code::before {
-    content: 'go';
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    font-size: 10px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .c-kw   { color: #c792ea; }
-  .c-fn   { color: var(--accent2); }
-  .c-str  { color: var(--accent); }
-  .c-cm   { color: var(--muted); font-style: italic; }
-  .c-ty   { color: #ffcb6b; }
-  .c-op   { color: var(--accent3); }
-
-  /* ── DIVIDER ── */
   .divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
     margin: 56px 0;
   }
 
-  /* ── SECTIONS ── */
-  h2 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.9rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 16px;
-    margin-top: 56px;
-    line-height: 1.2;
-  }
-
-  h2:first-of-type { margin-top: 0; }
-
-  h3 {
+  .section-label {
     font-family: 'DM Mono', monospace;
-    font-size: 0.82rem;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--accent);
-    margin-bottom: 14px;
-    margin-top: 40px;
-  }
-
-  p {
-    color: #c8c8dc;
-    margin-bottom: 20px;
-    font-weight: 300;
-  }
-
-  p strong {
-    color: var(--text);
-    font-weight: 500;
-  }
-
-  a {
-    color: var(--accent2);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(91,196,245,0.3);
-    transition: border-color 0.2s;
-  }
-  a:hover { border-color: var(--accent2); }
-
-  /* ── FEATURE GRID ── */
-  .feature-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin: 32px 0;
-  }
-
-  @media (max-width: 560px) { .feature-grid { grid-template-columns: 1fr; } }
-
-  .feature-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 22px 24px;
-    transition: border-color 0.25s, transform 0.25s;
-  }
-  .feature-card:hover {
-    border-color: rgba(127,255,178,0.25);
-    transform: translateY(-2px);
-  }
-
-  .feature-icon {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-  }
-
-  .feature-title {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-
-  .feature-desc {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.55;
-    margin: 0;
-  }
-
-  /* ── CODE BLOCKS ── */
-  .code-block {
-    background: var(--code-bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 24px 28px;
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    line-height: 1.85;
-    overflow-x: auto;
-    margin: 24px 0;
-    position: relative;
-  }
-
-  .code-block .lang-label {
-    position: absolute;
-    top: 12px;
-    right: 14px;
-    font-size: 10px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  /* ── FALLBACK TABLE ── */
-  .fallback-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 28px 0;
-    font-size: 14px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .fallback-table th {
-    text-align: left;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--accent);
-    color: var(--accent);
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-  }
-
-  .fallback-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.14em;
     color: var(--muted);
-    vertical-align: top;
+    margin-bottom: 28px;
   }
 
-  .fallback-table td:first-child {
-    color: var(--accent2);
-    white-space: nowrap;
-  }
-
-  .fallback-table tr:last-child td { border-bottom: none; }
-
-  /* ── CALLOUT ── */
-  .callout {
-    background: rgba(127,255,178,0.05);
-    border: 1px solid rgba(127,255,178,0.2);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 6px 6px 0;
-    padding: 20px 24px;
-    margin: 32px 0;
-    font-size: 15px;
-    color: #b8f5d4;
-    line-height: 1.65;
-  }
-
-  /* ── PIPELINE VISUAL ── */
-  .pipeline-visual {
+  .project-list {
     display: flex;
-    align-items: center;
-    gap: 0;
-    margin: 32px 0;
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-
-  .pipe-step {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 12px 16px;
-    border-radius: 4px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    text-align: center;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .pipe-step.accent { border-color: var(--accent); color: var(--accent); }
-  .pipe-step.blue   { border-color: var(--accent2); color: var(--accent2); }
-  .pipe-step.red    { border-color: var(--accent3); color: var(--accent3); }
-
-  .pipe-arrow {
-    font-size: 18px;
-    color: var(--muted);
-    padding: 0 6px;
-    flex-shrink: 0;
-  }
-
-  /* ── INSTALL BLOCK ── */
-  .install-block {
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 16px;
-    background: var(--code-bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 18px 24px;
-    margin: 28px 0;
-    font-family: 'DM Mono', monospace;
-    font-size: 14px;
   }
 
-  .install-block .prompt { color: var(--accent); }
-  .install-block .cmd { color: var(--text); }
-
-  /* ── CTA ── */
-  .cta-section {
-    margin-top: 72px;
-    margin-bottom: 80px;
-    text-align: center;
-    padding: 56px 32px;
+  .project-card {
+    display: block;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
+    padding: 28px 32px;
+    text-decoration: none;
+    border-bottom: none;
+    transition: border-color 0.25s, transform 0.25s, background 0.25s;
     position: relative;
     overflow: hidden;
   }
 
-  .cta-section::before {
+  .project-card::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(127,255,178,0.06) 0%, transparent 65%);
-    pointer-events: none;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--card-accent, var(--accent));
+    border-radius: 8px 0 0 8px;
+    transition: width 0.2s;
   }
 
-  .cta-section h2 {
-    margin-top: 0;
-    font-size: 2rem;
+  .project-card:hover {
+    border-color: rgba(127,255,178,0.2);
+    transform: translateX(4px);
+    background: #13131c;
   }
 
-  .cta-section p {
-    max-width: 440px;
-    margin: 0 auto 28px;
+  .project-card:hover::before {
+    width: 4px;
   }
 
-  .btn {
-    display: inline-flex;
+  .card-header {
+    display: flex;
     align-items: center;
-    gap: 8px;
-    background: var(--accent);
-    color: #0a0a0f;
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    padding: 12px 28px;
-    border-radius: 4px;
-    text-decoration: none;
-    border: none;
-    transition: opacity 0.2s, transform 0.2s;
+    justify-content: space-between;
+    margin-bottom: 10px;
   }
-  .btn:hover { opacity: 0.88; transform: translateY(-1px); border: none; }
-  .btn-ghost {
-    background: transparent;
-    color: var(--accent2);
-    border: 1px solid var(--accent2);
-    margin-left: 12px;
-  }
-  .btn-ghost:hover { background: rgba(91,196,245,0.08); }
 
-  /* ── FOOTER ── */
+  .card-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .card-arrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    color: var(--muted);
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .project-card:hover .card-arrow {
+    color: var(--card-accent, var(--accent));
+    transform: translateX(4px);
+  }
+
+  .card-desc {
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+
+  .card-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+
+  .tag-go    { color: var(--accent2); border-color: var(--accent2); background: rgba(91,196,245,0.07); }
+  .tag-open  { color: var(--accent);  border-color: var(--accent);  background: rgba(127,255,178,0.07); }
+  .tag-beta  { color: #ffcb6b; border-color: #ffcb6b; background: rgba(255,203,107,0.07); }
+
+  .card-billow  { --card-accent: var(--accent2); }
+  .card-datapipe { --card-accent: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  header { animation: fadeUp 0.5s ease both; }
+  .project-list { animation: fadeUp 0.5s ease 0.15s both; }
+
   footer {
     border-top: 1px solid var(--border);
-    padding: 32px 0;
+    padding: 32px 24px;
+    max-width: 740px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: 'DM Mono', monospace;
     font-size: 12px;
     color: var(--muted);
+    width: 100%;
+    position: relative;
+    z-index: 1;
   }
+
+  a { color: inherit; }
 
   @media (max-width: 480px) {
     footer { flex-direction: column; gap: 12px; text-align: center; }
+    .project-card { padding: 22px 20px; }
   }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  header, .hero-code, section {
-    animation: fadeUp 0.55s ease both;
-  }
-  .hero-code { animation-delay: 0.12s; }
-  section:nth-of-type(1) { animation-delay: 0.18s; }
-  section:nth-of-type(2) { animation-delay: 0.24s; }
 </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- ── HEADER ── -->
   <header>
-    <div class="tag-row">
-      <span class="tag tag-go">Go Package</span>
-      <span class="tag tag-open">Open Source</span>
-      <span class="tag tag-new">v0.0.1</span>
-    </div>
-    <h1>Build <em>resilient</em> data pipelines in Go — without the boilerplate</h1>
+    <div class="logo">// <span>nulllvoid</span></div>
+    <h1>Thoughtful Go libraries for <em>real</em> production systems</h1>
     <p class="subtitle">
-      DataPipe is a generic, extensible library for chaining multi-source fetchers,
-      enriching data in parallel, and observing every step — all with idiomatic Go generics.
+      Open source infrastructure primitives — provider-agnostic, zero unnecessary dependencies,
+      and built to disappear into your codebase.
     </p>
-    <div class="meta">
-      <span>March 2026</span>
-      <span>·</span>
-      <span>8 min read</span>
-      <span>·</span>
-      <span>nulllvoid/datapipe</span>
-    </div>
   </header>
 
-  <!-- ── HERO CODE ── -->
-  <div class="hero-code">
-<span class="c-cm">// One pipeline. Three sources. Zero glue code.</span>
-<br>
-chain := datapipe.<span class="c-fn">NewFetcherChain</span>[<span class="c-ty">User</span>, *<span class="c-ty">UserRequest</span>](
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">ChainWithFetcher</span>(primaryDB),
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">ChainWithFetcher</span>(replicaDB),
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">ChainWithFetcher</span>(elasticSearch),
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">ChainWithFallbackMode</span>(datapipe.<span class="c-ty">FallbackSequential</span>),
-<br>)
-<br><br>
-resp, err := pipeline.<span class="c-fn">Execute</span>(ctx, &<span class="c-ty">UserRequest</span>{Limit: <span class="c-str">10</span>})
+  <div class="divider"></div>
+
+  <div class="section-label">// packages</div>
+
+  <div class="project-list">
+
+    <a href="/datapipe" class="project-card card-datapipe">
+      <div class="card-header">
+        <span class="card-name">datapipe</span>
+        <span class="card-arrow">→</span>
+      </div>
+      <p class="card-desc">
+        Provider-agnostic data pipeline library for Go. Chain multi-source fetchers,
+        enrich in parallel, and observe every stage — with zero boilerplate.
+      </p>
+      <div class="card-tags">
+        <span class="tag tag-go">Go</span>
+        <span class="tag tag-open">Open Source</span>
+        <span class="tag tag-beta">v0.0.1</span>
+      </div>
+    </a>
+
+    <a href="/billow" class="project-card card-billow">
+      <div class="card-header">
+        <span class="card-name">billow</span>
+        <span class="card-arrow">→</span>
+      </div>
+      <p class="card-desc">
+        Subscription management library for Go SaaS backends. Abstract away Stripe,
+        Razorpay, and any payment gateway behind a single, type-safe interface.
+      </p>
+      <div class="card-tags">
+        <span class="tag tag-go">Go</span>
+        <span class="tag tag-open">Open Source</span>
+        <span class="tag tag-beta">v0.0.1</span>
+      </div>
+    </a>
+
   </div>
 
   <div class="divider"></div>
 
-  <!-- ── SECTION 1 ── -->
-  <section>
-    <h2>Why another data layer library?</h2>
-
-    <p>
-      Almost every backend service in Go eventually accumulates the same accretion of logic:
-      "try the primary DB, fall back to the replica, add user data from a microservice,
-      then maybe hydrate from cache." That logic ends up scattered across handlers, repositories,
-      and service layers — loosely coupled at best, a fragile spaghetti at worst.
-    </p>
-
-    <p>
-      <strong>DataPipe gives that logic a home.</strong> It codifies the fetch-enrich-respond
-      pattern into a composable, type-safe pipeline you can reason about, test independently,
-      and reuse across your codebase. Think of it as the missing abstraction layer between
-      your business logic and your data sources.
-    </p>
-
-    <div class="callout">
-      DataPipe requires <strong>Go 1.21+</strong> and leans fully into generics — no
-      <code>interface{}</code> casting, no runtime surprises. Your pipeline is as typed
-      as your domain model.
-    </div>
-  </section>
-
-  <!-- ── SECTION 2 ── -->
-  <section>
-    <h2>The three pillars</h2>
-
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🔗</div>
-        <div class="feature-title">Multi-Source Fetching</div>
-        <p class="feature-desc">Chain any number of data sources. Define priority order and let the pipeline handle fallback automatically.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">✨</div>
-        <div class="feature-title">Parallel Enrichment</div>
-        <p class="feature-desc">Hydrate fetched entities from N external services concurrently, with built-in worker pool limiting.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔭</div>
-        <div class="feature-title">Observability Hooks</div>
-        <p class="feature-desc">Plug in your metrics, tracing, and logging via middleware. Measure every stage without touching business logic.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🧩</div>
-        <div class="feature-title">Composable Stages</div>
-        <p class="feature-desc">Add custom stages between fetch and enrich for validation, transformation, or anything you need.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── SECTION 3 ── -->
-  <section>
-    <h2>Get started in 30 seconds</h2>
-
-    <div class="install-block">
-      <span class="prompt">$</span>
-      <span class="cmd">go get github.com/nulllvoid/datapipe</span>
-    </div>
-
-    <h3>Step 1 — Define your domain</h3>
-    <p>DataPipe works with any struct that satisfies the lightweight <code>Entity</code> and <code>Request</code> interfaces.</p>
-
-    <div class="code-block">
-      <span class="lang-label">go</span>
-<span class="c-kw">type</span> <span class="c-ty">User</span> <span class="c-kw">struct</span> {
-<br>&nbsp;&nbsp;ID   <span class="c-ty">string</span>
-<br>&nbsp;&nbsp;Name <span class="c-ty">string</span>
-<br>}
-<br><br>
-<span class="c-kw">func</span> (u <span class="c-ty">User</span>) <span class="c-fn">GetID</span>() <span class="c-ty">string</span> { <span class="c-kw">return</span> u.ID }
-<br><br>
-<span class="c-kw">type</span> <span class="c-ty">UserRequest</span> <span class="c-kw">struct</span> { Limit, Offset <span class="c-ty">int</span> }
-<br>
-<span class="c-kw">func</span> (r *<span class="c-ty">UserRequest</span>) <span class="c-fn">GetLimit</span>()  <span class="c-ty">int</span>            { <span class="c-kw">return</span> r.Limit }
-<br>
-<span class="c-kw">func</span> (r *<span class="c-ty">UserRequest</span>) <span class="c-fn">GetOffset</span>() <span class="c-ty">int</span>            { <span class="c-kw">return</span> r.Offset }
-<br>
-<span class="c-kw">func</span> (r *<span class="c-ty">UserRequest</span>) <span class="c-fn">Clone</span>()      datapipe.<span class="c-ty">Request</span> { copy := *r; <span class="c-kw">return</span> &copy }
-    </div>
-
-    <h3>Step 2 — Implement a Fetcher</h3>
-    <p>Embed <code>BaseFetcher</code> to get priority, naming, and <code>CanHandle</code> routing for free. Override only what you need.</p>
-
-    <div class="code-block">
-      <span class="lang-label">go</span>
-<span class="c-kw">type</span> <span class="c-ty">DBFetcher</span> <span class="c-kw">struct</span> {
-<br>&nbsp;&nbsp;datapipe.<span class="c-ty">BaseFetcher</span>[<span class="c-ty">User</span>, *<span class="c-ty">UserRequest</span>]
-<br>&nbsp;&nbsp;db *sql.<span class="c-ty">DB</span>
-<br>}
-<br><br>
-<span class="c-kw">func</span> (f *<span class="c-ty">DBFetcher</span>) <span class="c-fn">Fetch</span>(ctx <span class="c-ty">context.Context</span>, req *<span class="c-ty">UserRequest</span>) ([]<span class="c-ty">User</span>, <span class="c-ty">bool</span>, <span class="c-ty">error</span>) {
-<br>&nbsp;&nbsp;<span class="c-cm">// your SQL query here</span>
-<br>&nbsp;&nbsp;<span class="c-kw">return</span> users, hasMore, <span class="c-kw">nil</span>
-<br>}
-    </div>
-
-    <h3>Step 3 — Wire the pipeline</h3>
-
-    <div class="code-block">
-      <span class="lang-label">go</span>
-pipeline := datapipe.<span class="c-fn">New</span>[<span class="c-ty">User</span>, *<span class="c-ty">UserRequest</span>, *datapipe.<span class="c-ty">CollectionResponse</span>[<span class="c-ty">User</span>]](
-<br>&nbsp;&nbsp;<span class="c-str">"user_fetch"</span>,
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">WithFetcherChain</span>(chain),
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">WithParallelEnrichment</span>(<span class="c-kw">true</span>, <span class="c-str">5</span>, userEnricher, avatarEnricher),
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">WithTimeout</span>(<span class="c-str">5</span>*time.Second),
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">WithMetrics</span>(metricsImpl),
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">WithResponseBuilder</span>(&datapipe.<span class="c-ty">DefaultResponseBuilder</span>[<span class="c-ty">User</span>, *<span class="c-ty">UserRequest</span>]{}),
-<br>)
-<br><br>
-resp, err := pipeline.<span class="c-fn">Execute</span>(ctx, &<span class="c-ty">UserRequest</span>{Limit: <span class="c-str">20</span>})
-    </div>
-  </section>
-
-  <!-- ── SECTION 4 ── -->
-  <section>
-    <h2>Fallback strategies</h2>
-
-    <p>
-      One of DataPipe's most powerful features is its declarative fallback system.
-      Stop writing manual retry / fallback logic and let the pipeline handle it.
-    </p>
-
-    <div class="pipeline-visual">
-      <div class="pipe-step accent">AppDB</div>
-      <div class="pipe-arrow">→</div>
-      <div class="pipe-step blue">TiDB</div>
-      <div class="pipe-arrow">→</div>
-      <div class="pipe-step red">Elasticsearch</div>
-      <div class="pipe-arrow">→</div>
-      <div class="pipe-step" style="color:var(--muted)">Response</div>
-    </div>
-
-    <table class="fallback-table">
-      <thead>
-        <tr>
-          <th>Mode</th>
-          <th>Behavior</th>
-          <th>Best for</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>FallbackSequential</td>
-          <td>Try each source in priority order, continue if insufficient results</td>
-          <td>DB primary → replica → search</td>
-        </tr>
-        <tr>
-          <td>FallbackFirstSuccess</td>
-          <td>Use the first source that returns any data</td>
-          <td>Cache layers, fast short-circuits</td>
-        </tr>
-        <tr>
-          <td>FallbackParallel</td>
-          <td>Query all sources concurrently, use highest-priority winner</td>
-          <td>Latency-critical reads</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p>
-      Need to route requests selectively? Implement <code>CanHandle</code> on any fetcher
-      to opt it in or out based on request shape — e.g. send full-text search requests
-      only to Elasticsearch while regular queries go straight to the database.
-    </p>
-  </section>
-
-  <!-- ── SECTION 5 ── -->
-  <section>
-    <h2>Enrichment, done right</h2>
-
-    <p>
-      Enrichment is the step that kills performance in most backends: you fetch a list of
-      entities, then fan out to 4 microservices to hydrate each one. Without structure,
-      this becomes either dangerously sequential or hand-rolled goroutine soup.
-    </p>
-
-    <p>
-      DataPipe's <strong>parallel enrichment</strong> gives you a bounded worker pool,
-      per-enricher auth/expand filtering, and a clean abort path if a required enricher fails.
-    </p>
-
-    <div class="code-block">
-      <span class="lang-label">go</span>
-fundEnricher := &<span class="c-ty">FundAccountEnricher</span>{
-<br>&nbsp;&nbsp;BaseEnricher: datapipe.<span class="c-fn">NewBaseEnricher</span>[*<span class="c-ty">Payout</span>](<span class="c-str">"fund_account"</span>,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;datapipe.<span class="c-fn">EnricherWithExpandKey</span>(<span class="c-str">"fund_account"</span>),   <span class="c-cm">// opt-in via ?expand=</span>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;datapipe.<span class="c-fn">EnricherWithAllowedAuths</span>(<span class="c-str">"private"</span>, <span class="c-str">"admin"</span>), <span class="c-cm">// guard by auth</span>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;datapipe.<span class="c-fn">EnricherWithRequired</span>(<span class="c-kw">false</span>),               <span class="c-cm">// soft failure ok</span>
-<br>&nbsp;&nbsp;),
-<br>}
-    </div>
-
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-title">EnricherWithExpandKey</div>
-        <p class="feature-desc">Only enriches when the key is present in the request's expand params. Zero overhead when not needed.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-title">EnricherWithAllowedAuths</div>
-        <p class="feature-desc">Restrict enrichment to specific auth scopes — great for hiding sensitive fields from public callers.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-title">EnricherWithRequired</div>
-        <p class="feature-desc">Mark critical enrichers as required. A failure will halt the pipeline rather than silently returning incomplete data.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-title">Worker Pool Limiting</div>
-        <p class="feature-desc">Pass a concurrency cap when enabling parallel enrichment. No goroutine explosion, no need for external semaphores.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── SECTION 6 ── -->
-  <section>
-    <h2>Observability without friction</h2>
-
-    <p>
-      DataPipe ships with <strong>built-in middleware and metrics hooks</strong>. Plug in your
-      existing <code>Metrics</code> implementation and every pipeline execution is automatically
-      instrumented — stage latencies, error rates, fallback counts.
-    </p>
-
-    <div class="code-block">
-      <span class="lang-label">go</span>
-pipeline := datapipe.<span class="c-fn">New</span>(...,
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">WithMetrics</span>(prometheusMetrics),
-<br>&nbsp;&nbsp;datapipe.<span class="c-fn">WithMiddleware</span>(loggingMiddleware, tracingMiddleware),
-<br>)
-    </div>
-
-    <p>
-      Middleware wraps the full pipeline execution — useful for distributed tracing spans,
-      request-level logging, and audit trails. Pair it with a structured logger and you get
-      deep visibility into every data fetch your service performs.
-    </p>
-  </section>
-
-  <!-- ── SECTION 7 ── -->
-  <section>
-    <h2>What's next on the roadmap</h2>
-
-    <p>DataPipe is at <strong>v0.0.1</strong> — the core is stable, and several exciting phases are already planned:</p>
-
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-title">Phase 4 — Responses</div>
-        <p class="feature-desc">Richer ResponseBuilder variants and query specification support.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-title">Phase 5 — Middleware</div>
-        <p class="feature-desc">Advanced middleware patterns, retry policies, circuit breakers.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-title">Phase 6 — Built-in Fetchers</div>
-        <p class="feature-desc">First-class fetchers for Elasticsearch, SQL databases, and caches — drop in and go.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-title">Community</div>
-        <p class="feature-desc">Contributions welcome! See CONTRIBUTING.md to get involved early.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── CTA ── -->
-  <div class="cta-section">
-    <h2>Start building <em>better</em> pipelines</h2>
-    <p>DataPipe is MIT-licensed, dependency-light, and ready for production workloads. Give it a star if it helps your team.</p>
-    <a href="https://github.com/nulllvoid/datapipe" class="btn">⭐ Star on GitHub</a>
-    <a href="https://pkg.go.dev/github.com/nulllvoid/datapipe" class="btn btn-ghost">Go Reference ↗</a>
-  </div>
-
-  <footer>
-    <span>github.com/nulllvoid/datapipe</span>
-    <span>MIT License · Go 1.21+</span>
-  </footer>
-
 </div>
+
+<footer>
+  <span>github.com/nulllvoid</span>
+  <span>MIT License · Go 1.21+</span>
+</footer>
+
 </body>
 </html>

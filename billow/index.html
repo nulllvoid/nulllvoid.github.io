@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Billow — Subscription Management for Go</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --accent: #5bc4f5;
+    --accent2: #7fffb2;
+    --accent3: #ff6b6b;
+    --text: #e8e8f0;
+    --muted: #6b6b88;
+    --code-bg: #0d0d16;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(91,196,245,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,196,245,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── NAV ── */
+  nav {
+    padding: 24px 0 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  nav a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(91,196,245,0.3);
+    transition: border-color 0.2s;
+  }
+  nav a:hover { border-color: var(--accent); }
+
+  /* ── HEADER ── */
+  header {
+    padding: 64px 0 60px;
+    position: relative;
+  }
+
+  .tag-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .tag-go    { color: var(--accent2); border-color: var(--accent2); background: rgba(127,255,178,0.07); }
+  .tag-open  { color: var(--accent);  border-color: var(--accent);  background: rgba(91,196,245,0.07); }
+  .tag-new   { color: var(--accent3); border-color: var(--accent3); background: rgba(255,107,107,0.07); }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 1.15rem;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 580px;
+    line-height: 1.6;
+  }
+
+  .meta {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .meta::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── HERO CODE ── */
+  .hero-code {
+    margin: 48px 0;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 28px 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.9;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  .hero-code::before {
+    content: 'go';
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .c-kw  { color: #c792ea; }
+  .c-fn  { color: var(--accent); }
+  .c-str { color: var(--accent2); }
+  .c-cm  { color: var(--muted); font-style: italic; }
+  .c-ty  { color: #ffcb6b; }
+  .c-op  { color: var(--accent3); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+    margin: 56px 0;
+  }
+
+  /* ── SECTIONS ── */
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+    margin-top: 56px;
+    line-height: 1.2;
+  }
+  h2:first-of-type { margin-top: 0; }
+
+  h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-bottom: 14px;
+    margin-top: 40px;
+  }
+
+  p {
+    color: #c8c8dc;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  p strong { color: var(--text); font-weight: 500; }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(91,196,245,0.3);
+    transition: border-color 0.2s;
+  }
+  a:hover { border-color: var(--accent); }
+
+  /* ── FEATURE GRID ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  @media (max-width: 560px) { .feature-grid { grid-template-columns: 1fr; } }
+
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 22px 24px;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .feature-card:hover {
+    border-color: rgba(91,196,245,0.25);
+    transform: translateY(-2px);
+  }
+
+  .feature-icon { font-size: 1.4rem; margin-bottom: 10px; }
+
+  .feature-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .feature-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.85;
+    overflow-x: auto;
+    margin: 24px 0;
+    position: relative;
+  }
+
+  .code-block .lang-label {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: rgba(91,196,245,0.05);
+    border: 1px solid rgba(91,196,245,0.2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 20px 24px;
+    margin: 32px 0;
+    font-size: 15px;
+    color: #b8dcf5;
+    line-height: 1.65;
+  }
+
+  /* ── STATE TABLE ── */
+  .state-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 28px 0;
+    font-size: 14px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .state-table th {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .state-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    vertical-align: top;
+  }
+
+  .state-table td:first-child {
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+
+  .state-table tr:last-child td { border-bottom: none; }
+
+  /* ── INSTALL BLOCK ── */
+  .install-block {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 24px;
+    margin: 28px 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+  }
+
+  .install-block .prompt { color: var(--accent2); }
+  .install-block .cmd { color: var(--text); }
+
+  /* ── CTA ── */
+  .cta-section {
+    margin-top: 72px;
+    margin-bottom: 80px;
+    text-align: center;
+    padding: 56px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(91,196,245,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .cta-section h2 { margin-top: 0; font-size: 2rem; }
+  .cta-section p { max-width: 440px; margin: 0 auto 28px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #0a0a0f;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 12px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn:hover { opacity: 0.88; transform: translateY(-1px); border: none; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--accent2);
+    border: 1px solid var(--accent2);
+    margin-left: 12px;
+  }
+  .btn-ghost:hover { background: rgba(127,255,178,0.08); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 480px) {
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  header, .hero-code, section {
+    animation: fadeUp 0.55s ease both;
+  }
+  .hero-code { animation-delay: 0.12s; }
+  section:nth-of-type(1) { animation-delay: 0.18s; }
+  section:nth-of-type(2) { animation-delay: 0.24s; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav>
+    <a href="/">← nulllvoid</a>
+  </nav>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <div class="tag-row">
+      <span class="tag tag-go">Go Package</span>
+      <span class="tag tag-open">Open Source</span>
+      <span class="tag tag-new">v0.0.1</span>
+    </div>
+    <h1>Subscription billing that <em>stays out of the way</em></h1>
+    <p class="subtitle">
+      Billow is a provider-agnostic subscription management library for Go — one interface
+      for Stripe, Razorpay, or any gateway. Zero external dependencies.
+    </p>
+    <div class="meta">
+      <span>March 2026</span>
+      <span>·</span>
+      <span>10 min read</span>
+      <span>·</span>
+      <span>nulllvoid/billow</span>
+    </div>
+  </header>
+
+  <!-- ── HERO CODE ── -->
+  <div class="hero-code">
+<span class="c-cm">// Wire once. Switch providers without touching your business logic.</span>
+<br>
+mgr := billow.<span class="c-fn">New</span>(
+<br>&nbsp;&nbsp;billow.<span class="c-fn">WithProvider</span>(stripeProvider),
+<br>&nbsp;&nbsp;billow.<span class="c-fn">WithStore</span>(pgStore),
+<br>&nbsp;&nbsp;billow.<span class="c-fn">WithWebhookWorkers</span>(<span class="c-str">4</span>),
+<br>)
+<br><br>
+sub, err := mgr.<span class="c-fn">Subscribe</span>(ctx, billow.<span class="c-ty">SubscribeRequest</span>{
+<br>&nbsp;&nbsp;CustomerID: <span class="c-str">"cust_123"</span>,
+<br>&nbsp;&nbsp;PlanID:     <span class="c-str">"plan_pro_monthly"</span>,
+<br>&nbsp;&nbsp;TrialDays:  <span class="c-str">14</span>,
+<br>})
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── SECTION 1 ── -->
+  <section>
+    <h2>Why does billing logic always leak?</h2>
+
+    <p>
+      Payment gateway SDKs are sprawling. Every provider has its own types, its own webhook
+      shapes, its own retry semantics. Over time, Stripe-specific structs start appearing
+      in your domain models. Webhook handlers grow into hundred-line functions. Switching
+      providers becomes a project, not a refactor.
+    </p>
+
+    <p>
+      <strong>Billow gives billing a clean boundary.</strong> One <code>Provider</code>
+      interface to implement per gateway. One <code>Manager</code> that handles persistence,
+      caching, metered usage, and async webhook dispatch. Your business logic stays
+      untouched regardless of which payment gateway you run.
+    </p>
+
+    <div class="callout">
+      Billow requires <strong>Go 1.21+</strong> and has <strong>zero external dependencies</strong>.
+      Bring your own store and provider — everything else is pure Go standard library.
+    </div>
+  </section>
+
+  <!-- ── SECTION 2 ── -->
+  <section>
+    <h2>What's in the box</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔌</div>
+        <div class="feature-title">Provider Interface</div>
+        <p class="feature-desc">One interface to implement for any payment gateway. Swap Stripe for Razorpay — or run both — without touching a single handler.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <div class="feature-title">Pluggable Stores</div>
+        <p class="feature-desc">PlanStore, SubscriptionStore, UsageStore interfaces. Ship with the in-memory implementation, graduate to Postgres.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Metered Usage</div>
+        <p class="feature-desc">Track usage per metric, enforce limits, and report to your provider with the built-in sweeper. No manual fan-out needed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🪝</div>
+        <div class="feature-title">Webhook Dispatch</div>
+        <p class="feature-desc">Parse, normalize, and dispatch webhook events via an async worker pool. Register typed handlers — no switch statements required.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Plan Cache</div>
+        <p class="feature-desc">TTL-based plan caching out of the box. Hot paths don't hit your store for plan lookups.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <div class="feature-title">Metrics Hooks</div>
+        <p class="feature-desc">Prometheus and Datadog-compatible instrumentation. Plug in your existing metrics client and get billing visibility for free.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 3 ── -->
+  <section>
+    <h2>Get started in 30 seconds</h2>
+
+    <div class="install-block">
+      <span class="prompt">$</span>
+      <span class="cmd">go get github.com/nulllvoid/billow</span>
+    </div>
+
+    <h3>Step 1 — Implement a Provider</h3>
+    <p>
+      The <code>Provider</code> interface is the only gateway-specific code you write.
+      Implement it once for Stripe, once for Razorpay — then never again.
+    </p>
+
+    <div class="code-block">
+      <span class="lang-label">go</span>
+<span class="c-kw">type</span> <span class="c-ty">StripeProvider</span> <span class="c-kw">struct</span> { client *stripe.<span class="c-ty">Client</span> }
+<br><br>
+<span class="c-kw">func</span> (p *<span class="c-ty">StripeProvider</span>) <span class="c-fn">CreateSubscription</span>(ctx <span class="c-ty">context.Context</span>, req billow.<span class="c-ty">SubscribeRequest</span>) (*billow.<span class="c-ty">Subscription</span>, <span class="c-ty">error</span>) {
+<br>&nbsp;&nbsp;<span class="c-cm">// call Stripe SDK, map to billow.Subscription</span>
+<br>&nbsp;&nbsp;<span class="c-kw">return</span> &billow.<span class="c-ty">Subscription</span>{...}, <span class="c-kw">nil</span>
+<br>}
+<br><br>
+<span class="c-cm">// ParseWebhook, CancelSubscription, ReportUsage, ... </span>
+    </div>
+
+    <h3>Step 2 — Choose a Store</h3>
+    <p>
+      Start with the built-in memory store for development. Both the simple and
+      256-shard variants implement the same interface.
+    </p>
+
+    <div class="code-block">
+      <span class="lang-label">go</span>
+<span class="c-kw">import</span> <span class="c-str">"github.com/nulllvoid/billow/store/memory"</span>
+<br><br>
+store := memory.<span class="c-fn">New</span>()           <span class="c-cm">// simple, dev-friendly</span>
+<br>
+<span class="c-cm">// or</span>
+<br>
+store := memory.<span class="c-fn">NewSharded</span>()   <span class="c-cm">// 256-shard, high-throughput</span>
+    </div>
+
+    <h3>Step 3 — Create the Manager</h3>
+
+    <div class="code-block">
+      <span class="lang-label">go</span>
+mgr := billow.<span class="c-fn">New</span>(
+<br>&nbsp;&nbsp;billow.<span class="c-fn">WithProvider</span>(stripeProvider),
+<br>&nbsp;&nbsp;billow.<span class="c-fn">WithStore</span>(store),
+<br>&nbsp;&nbsp;billow.<span class="c-fn">WithPlanCacheTTL</span>(<span class="c-str">5</span>*time.Minute),
+<br>&nbsp;&nbsp;billow.<span class="c-fn">WithMetrics</span>(prometheusMetrics),
+<br>&nbsp;&nbsp;billow.<span class="c-fn">WithWebhookWorkers</span>(<span class="c-str">4</span>),
+<br>)
+<br><span class="c-kw">defer</span> mgr.<span class="c-fn">Close</span>()
+    </div>
+  </section>
+
+  <!-- ── SECTION 4 ── -->
+  <section>
+    <h2>Subscription lifecycle</h2>
+
+    <p>
+      Billow tracks every subscription through a well-defined state machine.
+      States are stored locally and kept in sync with your provider via webhooks.
+    </p>
+
+    <table class="state-table">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th>Meaning</th>
+          <th>Transitions to</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>trialing</td>
+          <td>Free trial period — not yet charged</td>
+          <td>active, canceled</td>
+        </tr>
+        <tr>
+          <td>active</td>
+          <td>Paid and in good standing</td>
+          <td>paused, past_due, canceled</td>
+        </tr>
+        <tr>
+          <td>paused</td>
+          <td>Billing paused by request</td>
+          <td>active, canceled</td>
+        </tr>
+        <tr>
+          <td>past_due</td>
+          <td>Payment failed, grace period active</td>
+          <td>active, canceled, expired</td>
+        </tr>
+        <tr>
+          <td>canceled</td>
+          <td>Explicitly canceled</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>expired</td>
+          <td>Grace period exhausted</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-block">
+      <span class="lang-label">go</span>
+<span class="c-cm">// Pause, resume, cancel — all the same pattern</span>
+<br>
+err = mgr.<span class="c-fn">PauseSubscription</span>(ctx, subID)
+<br>
+err = mgr.<span class="c-fn">ResumeSubscription</span>(ctx, subID)
+<br>
+err = mgr.<span class="c-fn">CancelSubscription</span>(ctx, subID, billow.<span class="c-ty">CancelAtPeriodEnd</span>)
+<br>
+err = mgr.<span class="c-fn">UpgradeSubscription</span>(ctx, subID, newPlanID)
+    </div>
+  </section>
+
+  <!-- ── SECTION 5 ── -->
+  <section>
+    <h2>Metered billing</h2>
+
+    <p>
+      Track usage per customer per metric, enforce limits in real time, and let the
+      background sweeper handle provider reporting. No manual cron jobs, no race conditions.
+    </p>
+
+    <div class="code-block">
+      <span class="lang-label">go</span>
+<span class="c-cm">// Record usage</span>
+<br>
+err = mgr.<span class="c-fn">RecordUsage</span>(ctx, billow.<span class="c-ty">UsageRecord</span>{
+<br>&nbsp;&nbsp;SubscriptionID: subID,
+<br>&nbsp;&nbsp;Metric:         <span class="c-str">"api_calls"</span>,
+<br>&nbsp;&nbsp;Quantity:       <span class="c-str">1</span>,
+<br>})
+<br><br>
+<span class="c-cm">// Check a single limit</span>
+<br>
+ok, err := mgr.<span class="c-fn">CheckLimit</span>(ctx, subID, <span class="c-str">"api_calls"</span>)
+<br><br>
+<span class="c-cm">// Check multiple limits in one call</span>
+<br>
+results, err := mgr.<span class="c-fn">CheckLimits</span>(ctx, subID, <span class="c-str">"api_calls"</span>, <span class="c-str">"storage_gb"</span>)
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-title">Persist-then-Report</div>
+        <p class="feature-desc">Usage is written to your store first, then swept to the provider. Survives provider outages without data loss.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-title">Per-Metric Indexing</div>
+        <p class="feature-desc">Usage is indexed by subscription → metric for fast limit checks, even under high write load.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 6 ── -->
+  <section>
+    <h2>Webhooks without boilerplate</h2>
+
+    <p>
+      Register typed event handlers on the Manager. Billow parses the raw webhook
+      payload via your provider, normalizes it to a <code>WebhookEvent</code>, and
+      dispatches it to the right handler — asynchronously, via a bounded worker pool.
+    </p>
+
+    <div class="code-block">
+      <span class="lang-label">go</span>
+mgr.<span class="c-fn">OnWebhook</span>(billow.<span class="c-ty">EventSubscriptionActivated</span>, <span class="c-kw">func</span>(ctx <span class="c-ty">context.Context</span>, e billow.<span class="c-ty">WebhookEvent</span>) <span class="c-ty">error</span> {
+<br>&nbsp;&nbsp;<span class="c-cm">// provision access, send welcome email, etc.</span>
+<br>&nbsp;&nbsp;<span class="c-kw">return</span> <span class="c-kw">nil</span>
+<br>})
+<br><br>
+<span class="c-cm">// In your HTTP handler:</span>
+<br>
+err = mgr.<span class="c-fn">HandleWebhook</span>(ctx, r.<span class="c-ty">Body</span>, r.<span class="c-ty">Header</span>)
+    </div>
+
+    <p>
+      The worker pool size is configurable via <code>WithWebhookWorkers</code>.
+      Graceful shutdown via <code>mgr.Close()</code> drains all in-flight events
+      before exit.
+    </p>
+  </section>
+
+  <!-- ── CTA ── -->
+  <div class="cta-section">
+    <h2>Clean billing, <em>finally</em></h2>
+    <p>Billow is MIT-licensed and ready for production. Give it a star if it simplifies your stack.</p>
+    <a href="https://github.com/nulllvoid/billow" class="btn">⭐ Star on GitHub</a>
+    <a href="https://pkg.go.dev/github.com/nulllvoid/billow" class="btn btn-ghost">Go Reference ↗</a>
+  </div>
+
+  <footer>
+    <span>github.com/nulllvoid/billow</span>
+    <span>MIT License · Go 1.21+</span>
+  </footer>
+
+</div>
+</body>
+</html>
