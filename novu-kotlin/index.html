@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>novu-kotlin — The Official Kotlin SDK for Novu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --accent: #c792ea;
+    --accent2: #7fffb2;
+    --accent3: #ff6b6b;
+    --accent4: #5bc4f5;
+    --text: #e8e8f0;
+    --muted: #6b6b88;
+    --code-bg: #0d0d16;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(199,146,234,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(199,146,234,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── NAV ── */
+  nav {
+    padding: 24px 0 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  nav a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(199,146,234,0.3);
+    transition: border-color 0.2s;
+  }
+  nav a:hover { border-color: var(--accent); }
+
+  /* ── HEADER ── */
+  header { padding: 64px 0 56px; }
+
+  .tag-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .tag-kt   { color: var(--accent);  border-color: var(--accent);  background: rgba(199,146,234,0.07); }
+  .tag-open { color: var(--accent2); border-color: var(--accent2); background: rgba(127,255,178,0.07); }
+  .tag-new  { color: var(--accent3); border-color: var(--accent3); background: rgba(255,107,107,0.07); }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .subtitle {
+    font-size: 1.15rem;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 580px;
+    line-height: 1.6;
+  }
+
+  .meta {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .meta::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── HERO CODE ── */
+  .hero-code {
+    margin: 48px 0;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 28px 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.9;
+    overflow-x: auto;
+    position: relative;
+  }
+  .hero-code::before {
+    content: 'kotlin';
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .c-kw  { color: var(--accent); }
+  .c-fn  { color: var(--accent4); }
+  .c-str { color: var(--accent2); }
+  .c-cm  { color: var(--muted); font-style: italic; }
+  .c-ty  { color: #ffcb6b; }
+  .c-num { color: var(--accent3); }
+  .c-op  { color: #89ddff; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+    margin: 56px 0;
+  }
+
+  /* ── SECTIONS ── */
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+    margin-top: 56px;
+    line-height: 1.2;
+  }
+  h2:first-of-type { margin-top: 0; }
+
+  h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-bottom: 14px;
+    margin-top: 40px;
+  }
+
+  p {
+    color: #c8c8dc;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+  p strong { color: var(--text); font-weight: 500; }
+
+  a {
+    color: var(--accent4);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(91,196,245,0.3);
+    transition: border-color 0.2s;
+  }
+  a:hover { border-color: var(--accent4); }
+
+  /* ── FEATURE GRID ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 32px 0;
+  }
+  @media (max-width: 560px) { .feature-grid { grid-template-columns: 1fr; } }
+
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 22px 24px;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .feature-card:hover {
+    border-color: rgba(199,146,234,0.25);
+    transform: translateY(-2px);
+  }
+  .feature-icon { font-size: 1.4rem; margin-bottom: 10px; }
+  .feature-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .feature-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.85;
+    overflow-x: auto;
+    margin: 24px 0;
+    position: relative;
+  }
+  .code-block .lang-label {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── API TABLE ── */
+  .api-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 28px 0;
+    font-size: 13.5px;
+    font-family: 'DM Mono', monospace;
+  }
+  .api-table th {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .api-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .api-table td:first-child { color: var(--accent4); white-space: nowrap; }
+  .api-table tr:last-child td { border-bottom: none; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: rgba(199,146,234,0.05);
+    border: 1px solid rgba(199,146,234,0.2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 20px 24px;
+    margin: 32px 0;
+    font-size: 15px;
+    color: #e0c8f5;
+    line-height: 1.65;
+  }
+
+  /* ── INSTALL BLOCK ── */
+  .install-block {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 24px;
+    margin: 28px 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 13.5px;
+  }
+  .install-block .prompt { color: var(--accent); }
+  .install-block .cmd { color: var(--text); }
+
+  /* ── FLOW VISUAL ── */
+  .flow-visual {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 32px 0;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .flow-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .flow-step.purple { border-color: var(--accent);  color: var(--accent); }
+  .flow-step.green  { border-color: var(--accent2); color: var(--accent2); }
+  .flow-step.blue   { border-color: var(--accent4); color: var(--accent4); }
+  .flow-step.red    { border-color: var(--accent3); color: var(--accent3); }
+  .flow-arrow { font-size: 18px; color: var(--muted); padding: 0 6px; flex-shrink: 0; }
+
+  /* ── CTA ── */
+  .cta-section {
+    margin-top: 72px;
+    margin-bottom: 80px;
+    text-align: center;
+    padding: 56px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(199,146,234,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .cta-section h2 { margin-top: 0; font-size: 2rem; }
+  .cta-section p  { max-width: 440px; margin: 0 auto 28px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 12px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn:hover { opacity: 0.88; transform: translateY(-1px); border: none; }
+  .btn-primary { background: var(--accent); color: #0a0a0f; }
+  .btn-ghost   {
+    background: transparent;
+    color: var(--accent2);
+    border: 1px solid rgba(127,255,178,0.4);
+    margin-left: 12px;
+  }
+  .btn-ghost:hover { background: rgba(127,255,178,0.07); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  @media (max-width: 480px) { footer { flex-direction: column; gap: 12px; text-align: center; } }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  header, .hero-code, section { animation: fadeUp 0.55s ease both; }
+  .hero-code              { animation-delay: 0.12s; }
+  section:nth-of-type(1)  { animation-delay: 0.18s; }
+  section:nth-of-type(2)  { animation-delay: 0.24s; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav><a href="/">← nulllvoid</a></nav>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <div class="tag-row">
+      <span class="tag tag-kt">Kotlin SDK</span>
+      <span class="tag tag-open">Open Source</span>
+      <span class="tag tag-new">v0.1.6</span>
+    </div>
+    <h1>Notifications that <em>go where your users are</em></h1>
+    <p class="subtitle">
+      novu-kotlin is the official Kotlin SDK for Novu — the open-source notification
+      infrastructure platform. One SDK for email, SMS, push, in-app, and more.
+    </p>
+    <div class="meta">
+      <span>Feb 2023</span>
+      <span>·</span>
+      <span>9 min read</span>
+      <span>·</span>
+      <span>nulllvoid/novu-kotlin</span>
+    </div>
+  </header>
+
+  <!-- ── HERO CODE ── -->
+  <div class="hero-code">
+<span class="c-cm">// One SDK. Every notification channel.</span>
+<br>
+<span class="c-kw">val</span> novu = <span class="c-ty">Novu</span>(<span class="c-ty">NovuConfig</span>(apiKey = <span class="c-str">"&lt;API_KEY&gt;"</span>))
+<br><br>
+novu.<span class="c-fn">trigger</span>(<span class="c-ty">TriggerEventRequest</span>(
+<br>&nbsp;&nbsp;name    = <span class="c-str">"order-shipped"</span>,
+<br>&nbsp;&nbsp;to      = <span class="c-str">"user-123"</span>,
+<br>&nbsp;&nbsp;payload = mapOf(
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"trackingUrl"</span> <span class="c-op">to</span> <span class="c-str">"https://track.example.com/abc"</span>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"estimatedDelivery"</span> <span class="c-op">to</span> <span class="c-str">"2026-04-01"</span>,
+<br>&nbsp;&nbsp;),
+<br>))
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── SECTION 1 ── -->
+  <section>
+    <h2>The notification problem, solved</h2>
+
+    <p>
+      Every product eventually needs notifications. First it's a transactional email.
+      Then a password reset SMS. Then push for mobile. Then in-app alerts. Before long
+      you're maintaining separate integrations for SendGrid, Twilio, Firebase, and
+      your own in-app feed — with no unified way to manage templates, preferences, or delivery history.
+    </p>
+
+    <p>
+      <strong>Novu solves this at the infrastructure level.</strong> One API for all channels,
+      a single dashboard for templates and workflows, and subscriber-level preference management
+      built in. The novu-kotlin SDK wraps all of this in idiomatic Kotlin — type-safe data classes,
+      Retrofit-powered HTTP, and synchronous extension functions for zero-boilerplate integration.
+    </p>
+
+    <div class="flow-visual">
+      <div class="flow-step purple">Kotlin Service</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step blue">Novu API</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step green">Email</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-step green">SMS</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-step green">Push</div>
+      <div class="flow-arrow">+</div>
+      <div class="flow-step green">In-App</div>
+    </div>
+
+    <div class="callout">
+      novu-kotlin is built on <strong>Retrofit 2</strong> with <strong>Kotlin Coroutines</strong>.
+      Synchronous extension functions are provided for straightforward integration, with the
+      underlying suspend APIs available for fully async code.
+    </div>
+  </section>
+
+  <!-- ── SECTION 2 ── -->
+  <section>
+    <h2>What the SDK covers</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Event Triggering</div>
+        <p class="feature-desc">Fire notifications to a single subscriber, bulk trigger to many, or broadcast to your entire audience in one call.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👤</div>
+        <div class="feature-title">Subscriber Management</div>
+        <p class="feature-desc">Full CRUD for subscribers — create, update, delete, manage channel credentials, and query notification history.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📣</div>
+        <div class="feature-title">Topics</div>
+        <p class="feature-desc">Group subscribers into topics and trigger to the whole group at once. Perfect for plans, cohorts, or feature flags.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎛️</div>
+        <div class="feature-title">Preferences</div>
+        <p class="feature-desc">Let subscribers opt in/out of channels per notification template. Respect user preferences without building the UI from scratch.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔌</div>
+        <div class="feature-title">Integrations</div>
+        <p class="feature-desc">Configure and manage provider integrations (SendGrid, Twilio, FCM…) programmatically from your Kotlin service.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <div class="feature-title">Execution Details</div>
+        <p class="feature-desc">Query delivery status and execution details per notification — know exactly what happened and when.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 3 ── -->
+  <section>
+    <h2>Get started in 60 seconds</h2>
+
+    <h3>Install</h3>
+    <p>Add the dependency to your Gradle build file:</p>
+
+    <div class="install-block">
+      <span class="prompt">build.gradle.kts</span>
+    </div>
+
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+<span class="c-cm">// build.gradle.kts</span>
+<br>
+dependencies {
+<br>&nbsp;&nbsp;implementation(<span class="c-str">"io.github.crashiv:novu-kotlin:0.1.6"</span>)
+<br>}
+    </div>
+
+    <h3>Initialise the client</h3>
+
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+<span class="c-cm">// Minimal setup</span>
+<br>
+<span class="c-kw">val</span> novu = <span class="c-ty">Novu</span>(apiKey = <span class="c-str">"&lt;YOUR_API_KEY&gt;"</span>)
+<br><br>
+<span class="c-cm">// Custom backend URL (self-hosted Novu)</span>
+<br>
+<span class="c-kw">val</span> novu = <span class="c-ty">Novu</span>(<span class="c-ty">NovuConfig</span>(
+<br>&nbsp;&nbsp;apiKey = <span class="c-str">"&lt;YOUR_API_KEY&gt;"</span>,
+<br>&nbsp;&nbsp;backendUrl = <span class="c-str">"https://novu.your-company.com/v1/"</span>,
+<br>))
+    </div>
+
+    <h3>Trigger your first notification</h3>
+
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+<span class="c-kw">val</span> response = novu.<span class="c-fn">trigger</span>(<span class="c-ty">TriggerEventRequest</span>(
+<br>&nbsp;&nbsp;name    = <span class="c-str">"welcome"</span>,           <span class="c-cm">// template identifier</span>
+<br>&nbsp;&nbsp;to      = <span class="c-str">"user-123"</span>,          <span class="c-cm">// subscriber ID</span>
+<br>&nbsp;&nbsp;payload = mapOf(
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"firstName"</span> <span class="c-op">to</span> <span class="c-str">"Shivam"</span>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"dashboardUrl"</span> <span class="c-op">to</span> <span class="c-str">"https://app.example.com"</span>,
+<br>&nbsp;&nbsp;),
+<br>&nbsp;&nbsp;transactionId = <span class="c-str">"txn-${UUID.randomUUID()}"</span>,  <span class="c-cm">// idempotency key</span>
+<br>))
+<br><br>
+println(response.data.acknowledged)  <span class="c-cm">// true</span>
+    </div>
+  </section>
+
+  <!-- ── SECTION 4 ── -->
+  <section>
+    <h2>Subscribers</h2>
+
+    <p>
+      A <strong>Subscriber</strong> is anyone who can receive notifications — a user,
+      a team, a device. Register them once and Novu handles routing to the right channel
+      based on the credentials you attach (email address, phone number, push token, etc.).
+    </p>
+
+    <h3>Create and update</h3>
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+<span class="c-cm">// Upsert on every login — keeps credentials fresh</span>
+<br>
+novu.<span class="c-fn">createSubscriber</span>(<span class="c-ty">SubscriberRequest</span>(
+<br>&nbsp;&nbsp;subscriberId = user.id,
+<br>&nbsp;&nbsp;firstName    = user.firstName,
+<br>&nbsp;&nbsp;lastName     = user.lastName,
+<br>&nbsp;&nbsp;email        = user.email,
+<br>&nbsp;&nbsp;phone        = user.phone,
+<br>&nbsp;&nbsp;avatar       = user.avatarUrl,
+<br>))
+<br><br>
+<span class="c-cm">// Update when profile changes</span>
+<br>
+novu.<span class="c-fn">updateSubscriber</span>(user.id, <span class="c-ty">UpdateSubscriberRequest</span>(
+<br>&nbsp;&nbsp;email = newEmail,
+<br>))
+    </div>
+
+    <h3>Channel credentials</h3>
+    <p>
+      Attach provider-specific credentials to route notifications correctly —
+      for example, a Firebase device token for push notifications.
+    </p>
+
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+novu.<span class="c-fn">updateSubscriberCredentials</span>(
+<br>&nbsp;&nbsp;subscriberId = user.id,
+<br>&nbsp;&nbsp;request = <span class="c-ty">UpdateSubscriberCredentialsRequest</span>(
+<br>&nbsp;&nbsp;&nbsp;&nbsp;providerId  = <span class="c-str">"fcm"</span>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;credentials = <span class="c-ty">ChannelCredentials</span>(
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deviceTokens = listOf(fcmToken),
+<br>&nbsp;&nbsp;&nbsp;&nbsp;),
+<br>&nbsp;&nbsp;),
+<br>)
+    </div>
+
+    <h3>Notification feed &amp; unread count</h3>
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+<span class="c-kw">val</span> feed = novu.<span class="c-fn">subscriberNotificationsFeed</span>(user.id)
+<br><span class="c-kw">val</span> count = novu.<span class="c-fn">subscriberUnseenNotificationsCount</span>(user.id)
+<br><br>
+<span class="c-cm">// Mark as seen after displaying in-app notifications</span>
+<br>
+novu.<span class="c-fn">markSubscriberFeed</span>(user.id,
+<br>&nbsp;&nbsp;<span class="c-ty">MarkSubscriberFeedAsRequest</span>(seen = <span class="c-kw">true</span>)
+<br>)
+    </div>
+  </section>
+
+  <!-- ── SECTION 5 ── -->
+  <section>
+    <h2>Topics — notify groups at once</h2>
+
+    <p>
+      Topics let you group subscribers and fire a single trigger to the entire group.
+      Use them for pricing plans, feature cohorts, or team-level notifications —
+      without building and maintaining your own fan-out logic.
+    </p>
+
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+<span class="c-cm">// Create a topic for pro plan users</span>
+<br>
+novu.<span class="c-fn">createTopic</span>(<span class="c-ty">CreateTopicRequest</span>(
+<br>&nbsp;&nbsp;key  = <span class="c-str">"plan:pro"</span>,
+<br>&nbsp;&nbsp;name = <span class="c-str">"Pro Plan Subscribers"</span>,
+<br>))
+<br><br>
+<span class="c-cm">// Add subscribers when they upgrade</span>
+<br>
+novu.<span class="c-fn">addSubscriber</span>(<span class="c-str">"plan:pro"</span>,
+<br>&nbsp;&nbsp;<span class="c-ty">AddSubscribersRequest</span>(subscribers = listOf(user.id))
+<br>)
+<br><br>
+<span class="c-cm">// Trigger to the whole topic — Novu fans out</span>
+<br>
+novu.<span class="c-fn">trigger</span>(<span class="c-ty">TriggerEventRequest</span>(
+<br>&nbsp;&nbsp;name    = <span class="c-str">"feature-announcement"</span>,
+<br>&nbsp;&nbsp;to      = listOf(<span class="c-ty">Topic</span>(topicKey = <span class="c-str">"plan:pro"</span>)),
+<br>&nbsp;&nbsp;payload = mapOf(<span class="c-str">"featureName"</span> <span class="c-op">to</span> <span class="c-str">"AI Summaries"</span>),
+<br>))
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-title">Zero fan-out code</div>
+        <p class="feature-desc">No loops, no goroutines, no queues. One trigger call — Novu delivers to every subscriber in the topic.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-title">Dynamic membership</div>
+        <p class="feature-desc">Add and remove subscribers from topics at runtime. Membership changes are reflected in the next trigger immediately.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 6 ── -->
+  <section>
+    <h2>Bulk triggers and broadcasts</h2>
+
+    <p>
+      Beyond single triggers, the SDK provides two patterns for high-volume sends.
+    </p>
+
+    <h3>Bulk trigger — personalised at scale</h3>
+    <p>
+      Send multiple personalised notifications in a single HTTP round-trip.
+      Each event in the batch can target a different subscriber with a different payload.
+    </p>
+
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+novu.<span class="c-fn">bulkTrigger</span>(<span class="c-ty">BulkTriggerEventRequest</span>(
+<br>&nbsp;&nbsp;events = invoices.map { inv ->
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-ty">TriggerEventRequest</span>(
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name    = <span class="c-str">"invoice-due"</span>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to      = inv.subscriberId,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;payload = mapOf(
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"amount"</span>  <span class="c-op">to</span> inv.amount,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"dueDate"</span> <span class="c-op">to</span> inv.dueDate,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),
+<br>&nbsp;&nbsp;&nbsp;&nbsp;)
+<br>&nbsp;&nbsp;}
+<br>))
+    </div>
+
+    <h3>Broadcast — the whole audience</h3>
+    <p>
+      Broadcast sends a single event to every subscriber in your Novu environment.
+      Good for product announcements, maintenance windows, or platform-wide alerts.
+    </p>
+
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+novu.<span class="c-fn">broadcast</span>(<span class="c-ty">BroadcastEventRequest</span>(
+<br>&nbsp;&nbsp;name    = <span class="c-str">"maintenance-window"</span>,
+<br>&nbsp;&nbsp;payload = mapOf(
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"startsAt"</span> <span class="c-op">to</span> <span class="c-str">"2026-04-01T02:00:00Z"</span>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"duration"</span> <span class="c-op">to</span> <span class="c-str">"30 minutes"</span>,
+<br>&nbsp;&nbsp;),
+<br>))
+    </div>
+  </section>
+
+  <!-- ── SECTION 7 ── -->
+  <section>
+    <h2>Subscriber preferences</h2>
+
+    <p>
+      Notification fatigue is real. Novu lets subscribers control which channels they
+      receive each template on — and the SDK makes it easy to read and write those
+      preferences from your backend.
+    </p>
+
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+<span class="c-cm">// Read what channels the subscriber has enabled</span>
+<br>
+<span class="c-kw">val</span> prefs = novu.<span class="c-fn">subscriberPreferences</span>(user.id)
+<br><br>
+<span class="c-cm">// Update: disable SMS for this template only</span>
+<br>
+novu.<span class="c-fn">updateSubscriberPreferences</span>(
+<br>&nbsp;&nbsp;subscriberId = user.id,
+<br>&nbsp;&nbsp;templateId   = <span class="c-str">"tmpl_marketing_digest"</span>,
+<br>&nbsp;&nbsp;request = <span class="c-ty">UpdateSubscriberPreferencesRequest</span>(
+<br>&nbsp;&nbsp;&nbsp;&nbsp;channels = mapOf(
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"email"</span> <span class="c-op">to</span> <span class="c-kw">true</span>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"sms"</span>   <span class="c-op">to</span> <span class="c-kw">false</span>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"push"</span>  <span class="c-op">to</span> <span class="c-kw">true</span>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;),
+<br>&nbsp;&nbsp;),
+<br>)
+    </div>
+  </section>
+
+  <!-- ── SECTION 8 ── -->
+  <section>
+    <h2>Under the hood</h2>
+
+    <p>
+      The SDK is structured around <strong>14 Retrofit API interfaces</strong> — one per
+      Novu resource domain. Each interface uses Kotlin suspend functions for coroutine-native
+      async calls. On top of those, a set of <strong>extension functions</strong> wraps each
+      call with <code>runBlocking</code> for synchronous use without any ceremony.
+    </p>
+
+    <table class="api-table">
+      <thead>
+        <tr>
+          <th>API</th>
+          <th>Responsibilities</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>EventsApi</td><td>trigger, bulkTrigger, broadcast, cancel</td></tr>
+        <tr><td>SubscribersApi</td><td>CRUD, credentials, preferences, feed, seen/read state</td></tr>
+        <tr><td>TopicsApi</td><td>create, rename, add/remove subscribers, list</td></tr>
+        <tr><td>NotificationTemplatesApi</td><td>create, update, delete, toggle status</td></tr>
+        <tr><td>NotificationsApi</td><td>list, get, stats, graph stats</td></tr>
+        <tr><td>IntegrationsApi</td><td>configure providers (SendGrid, Twilio, FCM…)</td></tr>
+        <tr><td>MessagesApi</td><td>list, delete individual messages</td></tr>
+        <tr><td>EnvironmentsApi</td><td>manage environments, API keys, widget settings</td></tr>
+        <tr><td>LayoutsApi</td><td>create/manage notification layout templates</td></tr>
+        <tr><td>ChangesApi</td><td>list, apply, bulk-apply environment changes</td></tr>
+        <tr><td>FeedsApi</td><td>create and manage in-app notification feeds</td></tr>
+        <tr><td>ExecutionDetailsApi</td><td>query per-notification delivery details</td></tr>
+        <tr><td>NotificationGroupsApi</td><td>organise templates into groups</td></tr>
+        <tr><td>InboundParseApi</td><td>validate MX records for inbound email parsing</td></tr>
+      </tbody>
+    </table>
+
+    <h3>HTTP configuration</h3>
+    <p>
+      Authentication is handled transparently via an OkHttp interceptor that injects the
+      <code>ApiKey</code> header on every request. Logging is configurable. The Gson
+      deserializer is set to lenient mode so partial API responses don't throw.
+    </p>
+
+    <div class="code-block">
+      <span class="lang-label">kotlin</span>
+<span class="c-cm">// RetrofitHelper sets this up automatically</span>
+<br>
+OkHttpClient.<span class="c-ty">Builder</span>()
+<br>&nbsp;&nbsp;.<span class="c-fn">addInterceptor</span> { chain ->
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-kw">val</span> req = chain.request().<span class="c-fn">newBuilder</span>()
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span class="c-fn">header</span>(<span class="c-str">"ApiKey"</span>, config.apiKey)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span class="c-fn">build</span>()
+<br>&nbsp;&nbsp;&nbsp;&nbsp;chain.<span class="c-fn">proceed</span>(req)
+<br>&nbsp;&nbsp;}
+<br>&nbsp;&nbsp;.<span class="c-fn">addInterceptor</span>(<span class="c-ty">HttpLoggingInterceptor</span>())
+<br>&nbsp;&nbsp;.<span class="c-fn">build</span>()
+    </div>
+  </section>
+
+  <!-- ── SECTION 9 ── -->
+  <section>
+    <h2>Publishing to Maven Central</h2>
+
+    <p>
+      The SDK is published to Maven Central via Sonatype OSS with a fully automated
+      GitHub Actions CI/CD pipeline. Every tagged release runs the test suite, builds
+      the JAR, signs the artifact, and publishes — no manual steps.
+    </p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🧪</div>
+        <div class="feature-title">15 Test Files</div>
+        <p class="feature-desc">MockWebServer-backed test suite covering all 14 API domains. Tests validate request paths, HTTP methods, headers, and response deserialization.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚀</div>
+        <div class="feature-title">Automated Publishing</div>
+        <p class="feature-desc">GitHub Actions pipeline tags, builds, signs, and publishes to Maven Central on every release. Versioned and reproducible.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">☕</div>
+        <div class="feature-title">Java 8 Target</div>
+        <p class="feature-desc">JVM target is Java 8 for maximum compatibility across Android and backend JVM environments.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">Apache 2.0</div>
+        <p class="feature-desc">Permissive license. Use in commercial projects, modify, redistribute — no strings attached.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <div class="cta-section">
+    <h2>Notifications, <em>handled</em></h2>
+    <p>novu-kotlin is available on Maven Central. Star the repo if it saves you an integration.</p>
+    <a href="https://github.com/nulllvoid/novu-kotlin" class="btn btn-primary">⭐ Star on GitHub</a>
+    <a href="https://docs.novu.co" class="btn btn-ghost">Novu Docs ↗</a>
+  </div>
+
+  <footer>
+    <span>github.com/nulllvoid/novu-kotlin</span>
+    <span>Apache 2.0 · Kotlin · JVM 8+</span>
+  </footer>
+
+</div>
+</body>
+</html>
