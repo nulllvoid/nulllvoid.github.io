@@ -14,6 +14,8 @@
     --accent: #7fffb2;
     --accent2: #5bc4f5;
     --accent3: #ff6b6b;
+    --accent4: #c792ea;
+    --accent5: #ffcb6b;
     --text: #e8e8f0;
     --muted: #6b6b88;
     --code-bg: #0d0d16;
@@ -47,9 +49,9 @@
   }
 
   .container {
-    max-width: 740px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 28px;
     position: relative;
     z-index: 1;
     flex: 1;
@@ -64,45 +66,37 @@
   a:hover { border-color: var(--accent2); }
 
   /* ── HEADER ── */
-  header {
-    padding: 88px 0 72px;
-  }
+  header { padding: 88px 0 72px; }
 
   .eyebrow {
     font-family: 'DM Mono', monospace;
     font-size: 12px;
     color: var(--muted);
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     margin-bottom: 24px;
   }
-
   .eyebrow span { color: var(--accent); }
 
   h1 {
     font-family: 'Fraunces', serif;
-    font-size: clamp(2.6rem, 7vw, 4rem);
+    font-size: clamp(2.6rem, 7vw, 4.2rem);
     font-weight: 900;
-    line-height: 1.05;
+    line-height: 1.04;
     letter-spacing: -0.025em;
     color: #fff;
     margin-bottom: 20px;
   }
-
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
+  h1 em { font-style: italic; color: var(--accent); }
 
   .tagline {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--muted);
     font-weight: 300;
-    max-width: 540px;
-    line-height: 1.65;
-    margin-bottom: 40px;
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 44px;
   }
-
   .tagline strong { color: #c8c8dc; font-weight: 400; }
 
   .social-row {
@@ -111,7 +105,6 @@
     flex-wrap: wrap;
     align-items: center;
   }
-
   .social-link {
     font-family: 'DM Mono', monospace;
     font-size: 12px;
@@ -119,9 +112,6 @@
     color: var(--muted);
     border-bottom: 1px solid transparent;
     transition: color 0.2s, border-color 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
   }
   .social-link:hover { color: var(--accent); border-color: var(--accent); }
 
@@ -129,7 +119,7 @@
   .divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
-    margin: 52px 0;
+    margin: 56px 0;
   }
 
   /* ── SECTION LABEL ── */
@@ -139,45 +129,32 @@
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: var(--muted);
-    margin-bottom: 28px;
+    margin-bottom: 32px;
   }
 
-  /* ── ABOUT ── */
-  .about-text {
-    font-size: 1.05rem;
-    color: #c8c8dc;
-    font-weight: 300;
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
-  .about-text strong { color: var(--text); font-weight: 500; }
-
-  /* ── STATS ROW ── */
+  /* ── STATS ── */
   .stats-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    margin: 36px 0;
+    margin: 0;
   }
-
   @media (max-width: 520px) { .stats-row { grid-template-columns: 1fr 1fr; } }
 
   .stat-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 20px 22px;
+    padding: 22px 24px;
   }
-
   .stat-value {
     font-family: 'Fraunces', serif;
-    font-size: 1.9rem;
+    font-size: 2rem;
     font-weight: 900;
     color: var(--accent);
     line-height: 1;
     margin-bottom: 6px;
   }
-
   .stat-label {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
@@ -186,13 +163,17 @@
     color: var(--muted);
   }
 
-  /* ── EXPERIENCE ── */
-  .exp-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+  /* ── ABOUT ── */
+  .about-text {
+    font-size: 1.05rem;
+    color: #c8c8dc;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 16px;
   }
+  .about-text strong { color: var(--text); font-weight: 500; }
 
+  /* ── EXPERIENCE ── */
   .exp-item {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -201,7 +182,6 @@
     border-bottom: 1px solid var(--border);
     align-items: start;
   }
-
   .exp-item:last-child { border-bottom: none; }
 
   .exp-role {
@@ -211,39 +191,28 @@
     color: #fff;
     margin-bottom: 2px;
   }
-
   .exp-company {
     font-family: 'DM Mono', monospace;
     font-size: 12px;
     color: var(--accent);
     letter-spacing: 0.06em;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
-
   .exp-period {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     color: var(--muted);
-    letter-spacing: 0.06em;
     white-space: nowrap;
     padding-top: 4px;
   }
-
-  .exp-highlights {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
+  .exp-highlights { list-style: none; display: flex; flex-direction: column; gap: 8px; }
   .exp-highlights li {
     font-size: 14px;
     color: var(--muted);
-    line-height: 1.55;
+    line-height: 1.6;
     padding-left: 18px;
     position: relative;
   }
-
   .exp-highlights li::before {
     content: '—';
     position: absolute;
@@ -251,148 +220,161 @@
     color: var(--border);
     font-size: 12px;
   }
-
   .exp-highlights li strong { color: #c8c8dc; font-weight: 500; }
 
-  /* ── OPEN SOURCE PROJECTS ── */
-  .project-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  /* ── PROJECT GRID ── */
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
   }
+  @media (max-width: 640px) { .project-grid { grid-template-columns: 1fr; } }
 
   .project-card {
-    display: block;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 26px 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
     text-decoration: none;
     border-bottom: none;
-    transition: border-color 0.25s, transform 0.2s, background 0.2s;
     position: relative;
-    overflow: hidden;
   }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--card-accent, var(--accent));
-    border-radius: 8px 0 0 8px;
-  }
-
   .project-card:hover {
-    border-color: rgba(127,255,178,0.2);
-    transform: translateX(4px);
-    background: #13131c;
+    border-color: rgba(127,255,178,0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.35);
   }
 
-  .card-header {
+  /* ── CODE WINDOW PREVIEW ── */
+  .preview-window {
+    background: var(--code-bg);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .preview-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-red   { background: #ff5f56; }
+  .dot-yel   { background: #ffbd2e; }
+  .dot-grn   { background: #27c93f; }
+
+  .preview-filename {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-left: 6px;
+  }
+
+  .preview-code {
+    padding: 16px 18px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    line-height: 1.8;
+    overflow: hidden;
+    white-space: pre;
+    min-height: 130px;
+  }
+
+  /* syntax tokens */
+  .t-kw  { color: #c792ea; }
+  .t-fn  { color: var(--accent2); }
+  .t-str { color: var(--accent); }
+  .t-cm  { color: #3d3d5c; font-style: italic; }
+  .t-ty  { color: #ffcb6b; }
+  .t-num { color: var(--accent3); }
+  .t-op  { color: #89ddff; }
+  .t-rb  { color: var(--accent3); }   /* ruby keyword */
+  .t-kt  { color: var(--accent4); }   /* kotlin */
+  .t-ln  { color: #2a2a3d; user-select: none; margin-right: 14px; display: inline-block; width: 18px; text-align: right; }
+
+  /* ── CARD BODY ── */
+  .card-body {
+    padding: 20px 22px 22px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 8px;
-    gap: 16px;
+    gap: 8px;
   }
 
   .card-name {
     font-family: 'Fraunces', serif;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: #fff;
   }
 
   .card-links {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     flex-shrink: 0;
-    align-items: center;
   }
-
   .card-link {
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--muted);
     border-bottom: 1px solid transparent;
     transition: color 0.2s, border-color 0.2s;
   }
-  .card-link.docs { color: var(--card-accent, var(--accent)); border-color: rgba(127,255,178,0.25); }
+  .card-link:hover { border-bottom-color: currentColor; }
+  .card-link.docs { color: var(--accent); }
   .card-link.gh   { color: var(--muted); }
-  .card-link:hover { color: var(--text); border-color: var(--muted); }
 
   .card-desc {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--muted);
     font-weight: 300;
     line-height: 1.6;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
+    flex: 1;
   }
 
   .card-tags {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
+    margin-top: auto;
   }
-
   .tag {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 3px 9px;
+    padding: 2px 8px;
     border-radius: 2px;
     border: 1px solid;
   }
+  .tag-go   { color: var(--accent2); border-color: rgba(91,196,245,0.35);  background: rgba(91,196,245,0.06); }
+  .tag-kt   { color: var(--accent4); border-color: rgba(199,146,234,0.35); background: rgba(199,146,234,0.06); }
+  .tag-rb   { color: var(--accent3); border-color: rgba(255,107,107,0.35); background: rgba(255,107,107,0.06); }
+  .tag-py   { color: var(--accent5); border-color: rgba(255,203,107,0.35); background: rgba(255,203,107,0.06); }
+  .tag-open { color: var(--accent);  border-color: rgba(127,255,178,0.35); background: rgba(127,255,178,0.06); }
+  .tag-otel { color: #89ddff;        border-color: rgba(137,221,255,0.35); background: rgba(137,221,255,0.06); }
+  .tag-ml   { color: var(--accent5); border-color: rgba(255,203,107,0.35); background: rgba(255,203,107,0.06); }
 
-  .tag-go    { color: var(--accent2); border-color: rgba(91,196,245,0.4);  background: rgba(91,196,245,0.06); }
-  .tag-open  { color: var(--accent);  border-color: rgba(127,255,178,0.4); background: rgba(127,255,178,0.06); }
-  .tag-otel  { color: #ffcb6b;        border-color: rgba(255,203,107,0.4); background: rgba(255,203,107,0.06); }
-
-  .card-datapipe { --card-accent: var(--accent); }
-  .card-billow   { --card-accent: var(--accent2); }
-
-  /* ── SKILLS ── */
-  .skills-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .skill-row {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 16px;
-    align-items: baseline;
-  }
-
-  @media (max-width: 520px) { .skill-row { grid-template-columns: 1fr; gap: 6px; } }
-
-  .skill-category {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    padding-top: 1px;
-  }
-
-  .skill-items {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  /* ── WRITING / BLOG ── */
-  .writing-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
+  /* ── WRITING ── */
   .writing-item {
     display: flex;
     justify-content: space-between;
@@ -402,9 +384,7 @@
     border-bottom: 1px solid var(--border);
     text-decoration: none;
     border-bottom-color: var(--border);
-    transition: background 0.15s;
   }
-
   .writing-item:last-child { border-bottom: none; }
 
   .writing-title {
@@ -415,57 +395,66 @@
     border-bottom: none;
     transition: color 0.2s;
   }
-
   .writing-item:hover .writing-title { color: var(--accent); }
-
   .writing-meta {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     color: var(--muted);
     white-space: nowrap;
-    letter-spacing: 0.06em;
     flex-shrink: 0;
   }
-
   .writing-desc {
     font-size: 13px;
     color: var(--muted);
     margin-top: 4px;
     font-weight: 300;
   }
-
   .writing-left { flex: 1; }
 
-  /* ── CTA / CONTACT ── */
+  /* ── SKILLS ── */
+  .skills-grid { display: flex; flex-direction: column; gap: 14px; }
+  .skill-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+  @media (max-width: 520px) { .skill-row { grid-template-columns: 1fr; gap: 6px; } }
+  .skill-category {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .skill-items { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ── CONTACT ── */
   .contact-section {
     margin: 8px 0 80px;
-    padding: 48px 36px;
+    padding: 52px 40px;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 10px;
     position: relative;
     overflow: hidden;
   }
-
   .contact-section::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(127,255,178,0.05) 0%, transparent 65%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(127,255,178,0.06) 0%, transparent 65%);
     pointer-events: none;
   }
-
   .contact-section h2 {
     font-family: 'Fraunces', serif;
-    font-size: 1.7rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #fff;
     margin-bottom: 12px;
     position: relative;
   }
-
   .contact-section h2 em { font-style: italic; color: var(--accent); }
-
   .contact-section p {
     color: var(--muted);
     font-size: 15px;
@@ -474,14 +463,7 @@
     max-width: 420px;
     position: relative;
   }
-
-  .contact-links {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    position: relative;
-  }
-
+  .contact-links { display: flex; gap: 14px; flex-wrap: wrap; position: relative; }
   .btn {
     display: inline-flex;
     align-items: center;
@@ -493,8 +475,8 @@
     padding: 11px 24px;
     border-radius: 4px;
     text-decoration: none;
-    border: none;
     transition: opacity 0.2s, transform 0.2s;
+    border: none;
   }
   .btn:hover { opacity: 0.85; transform: translateY(-1px); border: none; }
   .btn-primary { background: var(--accent); color: #0a0a0f; }
@@ -504,34 +486,29 @@
   /* ── FOOTER ── */
   footer {
     border-top: 1px solid var(--border);
-    padding: 28px 24px;
-    max-width: 740px;
+    padding: 28px 28px;
+    max-width: 900px;
     margin: 0 auto;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     color: var(--muted);
-    width: 100%;
     position: relative;
     z-index: 1;
   }
-
-  @media (max-width: 480px) {
-    footer { flex-direction: column; gap: 10px; text-align: center; }
-  }
+  @media (max-width: 480px) { footer { flex-direction: column; gap: 10px; text-align: center; } }
 
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-
-  header  { animation: fadeUp 0.5s ease both; }
+  header       { animation: fadeUp 0.5s ease both; }
   .stats-row   { animation: fadeUp 0.5s ease 0.08s both; }
-  .exp-list    { animation: fadeUp 0.5s ease 0.12s both; }
-  .project-list{ animation: fadeUp 0.5s ease 0.16s both; }
+  .project-grid{ animation: fadeUp 0.5s ease 0.14s both; }
 </style>
 </head>
 <body>
@@ -539,11 +516,11 @@
 
   <!-- ── HERO ── -->
   <header>
-    <div class="eyebrow">// <span>shivam shah</span> · backend engineer</div>
+    <div class="eyebrow">// <span>shivam shah</span> · backend engineer · bangalore</div>
     <h1>Building systems that <em>scale</em> quietly</h1>
     <p class="tagline">
-      Backend engineer at <strong>Razorpay</strong> — designing distributed payment infrastructure,
-      zero-downtime migrations, and open-source Go libraries that handle the boring parts of production.
+      Backend engineer at <strong>Razorpay</strong> — distributed payment infrastructure,
+      zero-downtime migrations, and open-source Go primitives that handle the boring parts of production.
     </p>
     <div class="social-row">
       <a href="https://github.com/nulllvoid" class="social-link">github.com/nulllvoid ↗</a>
@@ -581,90 +558,258 @@
   </p>
   <p class="about-text">
     Outside of work I write open-source Go libraries — primitives I kept wishing existed
-    in production codebases. Both are MIT-licensed and dependency-free.
+    in production codebases. Zero external dependencies, fully documented, CI/CD automated.
   </p>
 
   <div class="divider"></div>
 
   <!-- ── EXPERIENCE ── -->
   <div class="section-label">// experience</div>
-  <div class="exp-list">
 
-    <div class="exp-item">
-      <div>
-        <div class="exp-role">Software Development Engineer I</div>
-        <div class="exp-company">Razorpay Software Limited</div>
-        <ul class="exp-highlights">
-          <li>Built <strong>fetch_multiple</strong> — a plugin-based payout listing system across 4 backends (ES, MySQL, TiDB, Go service DB) cutting query latency by <strong>40%</strong> and DB load by <strong>60%</strong>.</li>
-          <li>Designed a <strong>Reverse Dual Write</strong> system for zero-downtime monolith → microservice migration via SQS, achieving <strong>99.9% data parity</strong> under live traffic.</li>
-          <li>Query optimization: replaced index scans with PK ordering, cutting execution from <strong>800ms → 120ms</strong>; layered Redis + ES to eliminate 70% of redundant DB hits.</li>
-          <li>Instrumented <strong>OpenTelemetry</strong> across 5 microservices, built Grafana dashboards tracking 20+ KPIs, reducing MTTD by <strong>70%</strong>.</li>
-          <li>Fee recovery automation recovered <strong>INR 1.6 crore</strong> in lost revenue via real-time ledger reconciliation.</li>
-        </ul>
-      </div>
-      <div class="exp-period">Feb 2024 – Present</div>
+  <div class="exp-item">
+    <div>
+      <div class="exp-role">Software Development Engineer I</div>
+      <div class="exp-company">Razorpay Software Limited</div>
+      <ul class="exp-highlights">
+        <li>Built <strong>fetch_multiple</strong> — plugin-based payout listing across 4 storage backends (ES, MySQL, TiDB, Go DB) cutting query latency <strong>40%</strong>, DB load <strong>60%</strong>.</li>
+        <li><strong>Reverse Dual Write</strong> for zero-downtime monolith → microservice migration via SQS, achieving <strong>99.9% data parity</strong> under live traffic.</li>
+        <li>Query optimization: PK-order replacing index scans cut execution <strong>800ms → 120ms</strong>; Redis + ES eliminated 70% redundant DB hits.</li>
+        <li>OpenTelemetry across 5 microservices + Grafana dashboards for 20+ KPIs — reduced MTTD by <strong>70%</strong>, adopted by 50+ engineers.</li>
+        <li>Fee recovery automation recovered <strong>INR 1.6 crore</strong> via real-time ledger reconciliation.</li>
+      </ul>
     </div>
+    <div class="exp-period">Feb 2024 – Present</div>
+  </div>
 
-    <div class="exp-item">
-      <div>
-        <div class="exp-role">Associate Software Engineer</div>
-        <div class="exp-company">Cogoport Private Limited</div>
-        <ul class="exp-highlights">
-          <li>Launched cross-border invoicing across <strong>3 jurisdictions</strong> (Singapore, China, Vietnam) — the company's first international B2B transaction capability.</li>
-          <li>Bulk payables pipeline processing up to <strong>10K invoices/batch</strong> via RabbitMQ with idempotent retry logic.</li>
-          <li>Scaled RabbitMQ infrastructure to <strong>10M jobs/day</strong>, improving throughput latency by <strong>50%</strong>.</li>
-          <li>Integrated Razorpay payment APIs (UPI, cards) and built webhook-driven transaction tracking dashboard.</li>
-        </ul>
-      </div>
-      <div class="exp-period">Jul 2022 – Dec 2023</div>
+  <div class="exp-item">
+    <div>
+      <div class="exp-role">Associate Software Engineer</div>
+      <div class="exp-company">Cogoport Private Limited</div>
+      <ul class="exp-highlights">
+        <li>Cross-border invoicing across <strong>3 jurisdictions</strong> (Singapore, China, Vietnam) — company's first international B2B transaction capability.</li>
+        <li>Bulk payables pipeline: <strong>10K invoices/batch</strong> via RabbitMQ with idempotent retry logic.</li>
+        <li>Scaled RabbitMQ to <strong>10M jobs/day</strong>, improving throughput latency <strong>50%</strong> with DLQ routing.</li>
+      </ul>
     </div>
-
+    <div class="exp-period">Jul 2022 – Dec 2023</div>
   </div>
 
   <div class="divider"></div>
 
-  <!-- ── OPEN SOURCE ── -->
-  <div class="section-label">// open source</div>
-  <div class="project-list">
+  <!-- ── PROJECTS ── -->
+  <div class="section-label">// projects</div>
+  <div class="project-grid">
 
-    <a href="/datapipe" class="project-card card-datapipe">
-      <div class="card-header">
-        <span class="card-name">datapipe</span>
-        <span class="card-links">
-          <span class="card-link docs">Docs →</span>
-          <span class="card-link gh">github ↗</span>
-        </span>
+    <!-- datapipe -->
+    <div class="project-card">
+      <div class="preview-window">
+        <div class="preview-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yel"></span>
+          <span class="dot dot-grn"></span>
+          <span class="preview-filename">pipeline.go</span>
+        </div>
+        <div class="preview-code"><span class="t-cm">// chain 3 sources, enrich in parallel</span>
+chain := datapipe.<span class="t-fn">NewFetcherChain</span>[<span class="t-ty">User</span>](
+  <span class="t-fn">ChainWithFetcher</span>(primaryDB),
+  <span class="t-fn">ChainWithFetcher</span>(replica),
+  <span class="t-fn">ChainWithFetcher</span>(elastic),
+  <span class="t-fn">ChainWithFallbackMode</span>(
+    <span class="t-ty">FallbackSequential</span>),
+)
+resp, _ := pipeline.<span class="t-fn">Execute</span>(ctx, req)</div>
       </div>
-      <p class="card-desc">
-        Generic pipeline library for Go — chain multi-source fetchers with configurable fallback,
-        enrich entities in parallel via a bounded worker pool, and instrument every stage with
-        OpenTelemetry. Zero external dependencies.
-      </p>
-      <div class="card-tags">
-        <span class="tag tag-go">Go</span>
-        <span class="tag tag-open">Open Source</span>
-        <span class="tag tag-otel">OpenTelemetry</span>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">datapipe</span>
+          <span class="card-links">
+            <a href="/datapipe" class="card-link docs">Docs →</a>
+            <a href="https://github.com/nulllvoid/datapipe" class="card-link gh">GitHub ↗</a>
+          </span>
+        </div>
+        <p class="card-desc">Generic pipeline library — multi-source fetching with configurable fallback, parallel enrichment, OpenTelemetry instrumentation. Zero deps.</p>
+        <div class="card-tags">
+          <span class="tag tag-go">Go</span>
+          <span class="tag tag-open">Open Source</span>
+          <span class="tag tag-otel">OpenTelemetry</span>
+        </div>
       </div>
-    </a>
+    </div>
 
-    <a href="/billow" class="project-card card-billow">
-      <div class="card-header">
-        <span class="card-name">billow</span>
-        <span class="card-links">
-          <span class="card-link docs" style="color:var(--accent2); border-color:rgba(91,196,245,0.25)">Docs →</span>
-          <span class="card-link gh">github ↗</span>
-        </span>
+    <!-- billow -->
+    <div class="project-card">
+      <div class="preview-window">
+        <div class="preview-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yel"></span>
+          <span class="dot dot-grn"></span>
+          <span class="preview-filename">manager.go</span>
+        </div>
+        <div class="preview-code"><span class="t-cm">// swap providers without touching biz logic</span>
+mgr := billow.<span class="t-fn">New</span>(
+  billow.<span class="t-fn">WithProvider</span>(stripeProvider),
+  billow.<span class="t-fn">WithStore</span>(pgStore),
+  billow.<span class="t-fn">WithWebhookWorkers</span>(<span class="t-num">4</span>),
+)
+sub, _ := mgr.<span class="t-fn">Subscribe</span>(ctx,
+  billow.<span class="t-ty">SubscribeRequest</span>{
+    PlanID: <span class="t-str">"plan_pro"</span>, TrialDays: <span class="t-num">14</span>,
+  })</div>
       </div>
-      <p class="card-desc">
-        Provider-agnostic subscription management for Go SaaS backends. One interface for Stripe,
-        Razorpay, or any gateway — with metered billing, webhook dispatch, plan caching, and metrics
-        hooks. Zero external dependencies.
-      </p>
-      <div class="card-tags">
-        <span class="tag tag-go">Go</span>
-        <span class="tag tag-open">Open Source</span>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">billow</span>
+          <span class="card-links">
+            <a href="/billow" class="card-link docs">Docs →</a>
+            <a href="https://github.com/nulllvoid/billow" class="card-link gh">GitHub ↗</a>
+          </span>
+        </div>
+        <p class="card-desc">Provider-agnostic subscription management for Go — one interface for Stripe, Razorpay, or any gateway. Metered billing, webhook dispatch, plan cache.</p>
+        <div class="card-tags">
+          <span class="tag tag-go">Go</span>
+          <span class="tag tag-open">Open Source</span>
+        </div>
       </div>
-    </a>
+    </div>
+
+    <!-- budget-tracker -->
+    <div class="project-card">
+      <div class="preview-window">
+        <div class="preview-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yel"></span>
+          <span class="dot dot-grn"></span>
+          <span class="preview-filename">tracker.go</span>
+        </div>
+        <div class="preview-code"><span class="t-cm">// full budget & savings tracking in Go</span>
+tracker := budget.<span class="t-fn">NewTracker</span>(
+  budget.<span class="t-fn">WithStore</span>(pgStore),
+  budget.<span class="t-fn">WithCategories</span>(cats...),
+)
+report, _ := tracker.<span class="t-fn">Monthly</span>(ctx,
+  <span class="t-ty">MonthlyRequest</span>{
+    UserID: userID,
+    Month:  <span class="t-str">"2026-03"</span>,
+  })
+<span class="t-cm">// savings rate, category breakdown</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">budget-tracker</span>
+          <span class="card-links">
+            <a href="https://github.com/nulllvoid/budget-tracker" class="card-link gh">GitHub ↗</a>
+          </span>
+        </div>
+        <p class="card-desc">Full-featured budget and savings tracking application in Go. Category-aware expense tracking, monthly reports, and savings rate analysis.</p>
+        <div class="card-tags">
+          <span class="tag tag-go">Go</span>
+          <span class="tag tag-open">Open Source</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- novu-kotlin -->
+    <div class="project-card">
+      <div class="preview-window">
+        <div class="preview-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yel"></span>
+          <span class="dot dot-grn"></span>
+          <span class="preview-filename">NovuClient.kt</span>
+        </div>
+        <div class="preview-code"><span class="t-cm">// official Kotlin SDK for Novu</span>
+<span class="t-kw">val</span> novu = <span class="t-ty">Novu</span>.<span class="t-fn">create</span>(
+  apiKey = <span class="t-str">"&lt;API_KEY&gt;"</span>
+)
+
+<span class="t-kw">val</span> response = novu.subscribers
+  .<span class="t-fn">identify</span>(<span class="t-ty">SubscriberRequest</span>(
+    subscriberId = <span class="t-str">"user-123"</span>,
+    email = <span class="t-str">"user@example.com"</span>,
+  ))</div>
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">novu-kotlin</span>
+          <span class="card-links">
+            <a href="https://github.com/nulllvoid/novu-kotlin" class="card-link gh">GitHub ↗</a>
+          </span>
+        </div>
+        <p class="card-desc">Official Kotlin SDK for Novu — notification infrastructure for engineers. Built with Retrofit and factory method patterns, published to Maven Central via GitHub Actions.</p>
+        <div class="card-tags">
+          <span class="tag tag-kt">Kotlin</span>
+          <span class="tag tag-open">Open Source</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- hutch -->
+    <div class="project-card">
+      <div class="preview-window">
+        <div class="preview-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yel"></span>
+          <span class="dot dot-grn"></span>
+          <span class="preview-filename">consumer.rb</span>
+        </div>
+        <div class="preview-code"><span class="t-cm"># JRuby-compatible RabbitMQ consumer</span>
+<span class="t-rb">class</span> <span class="t-ty">OrderConsumer</span>
+  <span class="t-rb">include</span> <span class="t-ty">Hutch::Consumer</span>
+  consume <span class="t-str">"orders.created"</span>
+
+  <span class="t-rb">def</span> <span class="t-fn">process</span>(message)
+    <span class="t-cm"># idempotent, DLQ on failure</span>
+    <span class="t-ty">Order</span>.<span class="t-fn">fulfill!</span>(message.body)
+  <span class="t-rb">end</span>
+<span class="t-rb">end</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">hutch</span>
+          <span class="card-links">
+            <a href="https://github.com/nulllvoid/hutch" class="card-link gh">GitHub ↗</a>
+          </span>
+        </div>
+        <p class="card-desc">JRuby-compatible fork of the Hutch RabbitMQ consumer gem. Adds configurable retry logic, dead-letter queue redirection, and custom exception handling.</p>
+        <div class="card-tags">
+          <span class="tag tag-rb">Ruby</span>
+          <span class="tag tag-open">Open Source</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- traffic-sign-classifier -->
+    <div class="project-card">
+      <div class="preview-window">
+        <div class="preview-bar">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yel"></span>
+          <span class="dot dot-grn"></span>
+          <span class="preview-filename">classifier.ipynb</span>
+        </div>
+        <div class="preview-code"><span class="t-cm"># CNN-based traffic sign recognition</span>
+model = <span class="t-ty">Sequential</span>([
+  <span class="t-ty">Conv2D</span>(<span class="t-num">32</span>, (<span class="t-num">3</span>,<span class="t-num">3</span>), activation=<span class="t-str">'relu'</span>),
+  <span class="t-ty">MaxPooling2D</span>(<span class="t-num">2</span>,<span class="t-num">2</span>),
+  <span class="t-ty">Conv2D</span>(<span class="t-num">64</span>, (<span class="t-num">3</span>,<span class="t-num">3</span>), activation=<span class="t-str">'relu'</span>),
+  <span class="t-ty">Dense</span>(<span class="t-num">43</span>, activation=<span class="t-str">'softmax'</span>),
+])
+<span class="t-cm"># 43 classes, GTSRB dataset</span></div>
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">traffic-sign-classifier</span>
+          <span class="card-links">
+            <a href="https://github.com/nulllvoid/Traffic-Sign-Classifier-1" class="card-link gh">GitHub ↗</a>
+          </span>
+        </div>
+        <p class="card-desc">CNN-based traffic sign classification model trained on the GTSRB dataset. 43-class recognition using convolutional layers with data augmentation.</p>
+        <div class="card-tags">
+          <span class="tag tag-py">Python</span>
+          <span class="tag tag-ml">ML</span>
+        </div>
+      </div>
+    </div>
 
   </div>
 
@@ -672,8 +817,7 @@
 
   <!-- ── WRITING ── -->
   <div class="section-label">// writing</div>
-  <div class="writing-list">
-
+  <div>
     <a href="/datapipe" class="writing-item">
       <div class="writing-left">
         <div class="writing-title">Build resilient data pipelines in Go — without the boilerplate</div>
@@ -681,7 +825,6 @@
       </div>
       <div class="writing-meta">Mar 2026 · datapipe</div>
     </a>
-
     <a href="/billow" class="writing-item">
       <div class="writing-left">
         <div class="writing-title">Subscription billing that stays out of the way</div>
@@ -689,7 +832,6 @@
       </div>
       <div class="writing-meta">Mar 2026 · billow</div>
     </a>
-
   </div>
 
   <div class="divider"></div>
