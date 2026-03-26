@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>nulllvoid — Open Source Go Libraries</title>
+<title>Shivam Shah — Backend Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -39,8 +39,8 @@
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(126,255,178,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(126,255,178,0.03) 1px, transparent 1px);
+      linear-gradient(rgba(126,255,178,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(126,255,178,0.025) 1px, transparent 1px);
     background-size: 48px 48px;
     pointer-events: none;
     z-index: 0;
@@ -55,27 +55,36 @@
     flex: 1;
   }
 
+  a {
+    color: var(--accent2);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(91,196,245,0.3);
+    transition: border-color 0.2s;
+  }
+  a:hover { border-color: var(--accent2); }
+
+  /* ── HEADER ── */
   header {
-    padding: 100px 0 64px;
+    padding: 88px 0 72px;
   }
 
-  .logo {
+  .eyebrow {
     font-family: 'DM Mono', monospace;
-    font-size: 13px;
+    font-size: 12px;
     color: var(--muted);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
   }
 
-  .logo span { color: var(--accent); }
+  .eyebrow span { color: var(--accent); }
 
   h1 {
     font-family: 'Fraunces', serif;
-    font-size: clamp(2.4rem, 6vw, 3.4rem);
+    font-size: clamp(2.6rem, 7vw, 4rem);
     font-weight: 900;
-    line-height: 1.08;
-    letter-spacing: -0.02em;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
     color: #fff;
     margin-bottom: 20px;
   }
@@ -85,29 +94,167 @@
     color: var(--accent);
   }
 
-  .subtitle {
-    font-size: 1.1rem;
+  .tagline {
+    font-size: 1.15rem;
     color: var(--muted);
     font-weight: 300;
-    max-width: 520px;
-    line-height: 1.6;
+    max-width: 540px;
+    line-height: 1.65;
+    margin-bottom: 40px;
   }
 
+  .tagline strong { color: #c8c8dc; font-weight: 400; }
+
+  .social-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .social-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .social-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── DIVIDER ── */
   .divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
-    margin: 56px 0;
+    margin: 52px 0;
   }
 
+  /* ── SECTION LABEL ── */
   .section-label {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.16em;
     color: var(--muted);
     margin-bottom: 28px;
   }
 
+  /* ── ABOUT ── */
+  .about-text {
+    font-size: 1.05rem;
+    color: #c8c8dc;
+    font-weight: 300;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+  .about-text strong { color: var(--text); font-weight: 500; }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 36px 0;
+  }
+
+  @media (max-width: 520px) { .stats-row { grid-template-columns: 1fr 1fr; } }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 22px;
+  }
+
+  .stat-value {
+    font-family: 'Fraunces', serif;
+    font-size: 1.9rem;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  /* ── EXPERIENCE ── */
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+
+  .exp-item:last-child { border-bottom: none; }
+
+  .exp-role {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+
+  .exp-company {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    padding-top: 4px;
+  }
+
+  .exp-highlights {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .exp-highlights li {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .exp-highlights li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--border);
+    font-size: 12px;
+  }
+
+  .exp-highlights li strong { color: #c8c8dc; font-weight: 500; }
+
+  /* ── OPEN SOURCE PROJECTS ── */
   .project-list {
     display: flex;
     flex-direction: column;
@@ -119,10 +266,10 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 28px 32px;
+    padding: 26px 30px;
     text-decoration: none;
     border-bottom: none;
-    transition: border-color 0.25s, transform 0.25s, background 0.25s;
+    transition: border-color 0.25s, transform 0.2s, background 0.2s;
     position: relative;
     overflow: hidden;
   }
@@ -130,13 +277,10 @@
   .project-card::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
+    left: 0; top: 0; bottom: 0;
     width: 3px;
     background: var(--card-accent, var(--accent));
     border-radius: 8px 0 0 8px;
-    transition: width 0.2s;
   }
 
   .project-card:hover {
@@ -145,42 +289,47 @@
     background: #13131c;
   }
 
-  .project-card:hover::before {
-    width: 4px;
-  }
-
   .card-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 16px;
   }
 
   .card-name {
     font-family: 'Fraunces', serif;
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: #fff;
   }
 
-  .card-arrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 18px;
-    color: var(--muted);
-    transition: color 0.2s, transform 0.2s;
+  .card-links {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+    align-items: center;
   }
 
-  .project-card:hover .card-arrow {
-    color: var(--card-accent, var(--accent));
-    transform: translateX(4px);
+  .card-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
   }
+  .card-link.docs { color: var(--card-accent, var(--accent)); border-color: rgba(127,255,178,0.25); }
+  .card-link.gh   { color: var(--muted); }
+  .card-link:hover { color: var(--text); border-color: var(--muted); }
 
   .card-desc {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--muted);
     font-weight: 300;
-    line-height: 1.55;
-    margin-bottom: 16px;
+    line-height: 1.6;
+    margin-bottom: 14px;
   }
 
   .card-tags {
@@ -191,100 +340,329 @@
 
   .tag {
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 3px 10px;
+    padding: 3px 9px;
     border-radius: 2px;
     border: 1px solid;
   }
 
-  .tag-go    { color: var(--accent2); border-color: var(--accent2); background: rgba(91,196,245,0.07); }
-  .tag-open  { color: var(--accent);  border-color: var(--accent);  background: rgba(127,255,178,0.07); }
-  .tag-beta  { color: #ffcb6b; border-color: #ffcb6b; background: rgba(255,203,107,0.07); }
+  .tag-go    { color: var(--accent2); border-color: rgba(91,196,245,0.4);  background: rgba(91,196,245,0.06); }
+  .tag-open  { color: var(--accent);  border-color: rgba(127,255,178,0.4); background: rgba(127,255,178,0.06); }
+  .tag-otel  { color: #ffcb6b;        border-color: rgba(255,203,107,0.4); background: rgba(255,203,107,0.06); }
 
-  .card-billow  { --card-accent: var(--accent2); }
   .card-datapipe { --card-accent: var(--accent); }
+  .card-billow   { --card-accent: var(--accent2); }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
 
-  header { animation: fadeUp 0.5s ease both; }
-  .project-list { animation: fadeUp 0.5s ease 0.15s both; }
+  .skill-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
 
+  @media (max-width: 520px) { .skill-row { grid-template-columns: 1fr; gap: 6px; } }
+
+  .skill-category {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    padding-top: 1px;
+  }
+
+  .skill-items {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── WRITING / BLOG ── */
+  .writing-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .writing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    border-bottom-color: var(--border);
+    transition: background 0.15s;
+  }
+
+  .writing-item:last-child { border-bottom: none; }
+
+  .writing-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    border-bottom: none;
+    transition: color 0.2s;
+  }
+
+  .writing-item:hover .writing-title { color: var(--accent); }
+
+  .writing-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+
+  .writing-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  .writing-left { flex: 1; }
+
+  /* ── CTA / CONTACT ── */
+  .contact-section {
+    margin: 8px 0 80px;
+    padding: 48px 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(127,255,178,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .contact-section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .contact-section h2 em { font-style: italic; color: var(--accent); }
+
+  .contact-section p {
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 28px;
+    max-width: 420px;
+    position: relative;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 11px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn:hover { opacity: 0.85; transform: translateY(-1px); border: none; }
+  .btn-primary { background: var(--accent); color: #0a0a0f; }
+  .btn-ghost   { background: transparent; color: var(--accent2); border: 1px solid rgba(91,196,245,0.4); }
+  .btn-ghost:hover { background: rgba(91,196,245,0.07); }
+
+  /* ── FOOTER ── */
   footer {
     border-top: 1px solid var(--border);
-    padding: 32px 24px;
+    padding: 28px 24px;
     max-width: 740px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--muted);
     width: 100%;
     position: relative;
     z-index: 1;
   }
 
-  a { color: inherit; }
-
   @media (max-width: 480px) {
-    footer { flex-direction: column; gap: 12px; text-align: center; }
-    .project-card { padding: 22px 20px; }
+    footer { flex-direction: column; gap: 10px; text-align: center; }
   }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  header  { animation: fadeUp 0.5s ease both; }
+  .stats-row   { animation: fadeUp 0.5s ease 0.08s both; }
+  .exp-list    { animation: fadeUp 0.5s ease 0.12s both; }
+  .project-list{ animation: fadeUp 0.5s ease 0.16s both; }
 </style>
 </head>
 <body>
 <div class="container">
 
+  <!-- ── HERO ── -->
   <header>
-    <div class="logo">// <span>nulllvoid</span></div>
-    <h1>Thoughtful Go libraries for <em>real</em> production systems</h1>
-    <p class="subtitle">
-      Open source infrastructure primitives — provider-agnostic, zero unnecessary dependencies,
-      and built to disappear into your codebase.
+    <div class="eyebrow">// <span>shivam shah</span> · backend engineer</div>
+    <h1>Building systems that <em>scale</em> quietly</h1>
+    <p class="tagline">
+      Backend engineer at <strong>Razorpay</strong> — designing distributed payment infrastructure,
+      zero-downtime migrations, and open-source Go libraries that handle the boring parts of production.
     </p>
+    <div class="social-row">
+      <a href="https://github.com/nulllvoid" class="social-link">github.com/nulllvoid ↗</a>
+      <a href="https://linkedin.com/in/shivam-shah-62a00b154" class="social-link">linkedin ↗</a>
+      <a href="mailto:shivik2541@gmail.com" class="social-link">shivik2541@gmail.com</a>
+    </div>
   </header>
 
   <div class="divider"></div>
 
-  <div class="section-label">// packages</div>
+  <!-- ── STATS ── -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">3+</div>
+      <div class="stat-label">Years in fintech</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">100K+</div>
+      <div class="stat-label">Daily txns handled</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">99.9%</div>
+      <div class="stat-label">Data parity on migration</div>
+    </div>
+  </div>
 
+  <div class="divider"></div>
+
+  <!-- ── ABOUT ── -->
+  <div class="section-label">// about</div>
+  <p class="about-text">
+    I work on the payments platform at Razorpay, building the infrastructure that processes
+    merchant payouts at scale. My day-to-day involves <strong>multi-source data systems</strong>,
+    <strong>monolith-to-microservice migrations</strong>, and making slow queries fast.
+  </p>
+  <p class="about-text">
+    Outside of work I write open-source Go libraries — primitives I kept wishing existed
+    in production codebases. Both are MIT-licensed and dependency-free.
+  </p>
+
+  <div class="divider"></div>
+
+  <!-- ── EXPERIENCE ── -->
+  <div class="section-label">// experience</div>
+  <div class="exp-list">
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-role">Software Development Engineer I</div>
+        <div class="exp-company">Razorpay Software Limited</div>
+        <ul class="exp-highlights">
+          <li>Built <strong>fetch_multiple</strong> — a plugin-based payout listing system across 4 backends (ES, MySQL, TiDB, Go service DB) cutting query latency by <strong>40%</strong> and DB load by <strong>60%</strong>.</li>
+          <li>Designed a <strong>Reverse Dual Write</strong> system for zero-downtime monolith → microservice migration via SQS, achieving <strong>99.9% data parity</strong> under live traffic.</li>
+          <li>Query optimization: replaced index scans with PK ordering, cutting execution from <strong>800ms → 120ms</strong>; layered Redis + ES to eliminate 70% of redundant DB hits.</li>
+          <li>Instrumented <strong>OpenTelemetry</strong> across 5 microservices, built Grafana dashboards tracking 20+ KPIs, reducing MTTD by <strong>70%</strong>.</li>
+          <li>Fee recovery automation recovered <strong>INR 1.6 crore</strong> in lost revenue via real-time ledger reconciliation.</li>
+        </ul>
+      </div>
+      <div class="exp-period">Feb 2024 – Present</div>
+    </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-role">Associate Software Engineer</div>
+        <div class="exp-company">Cogoport Private Limited</div>
+        <ul class="exp-highlights">
+          <li>Launched cross-border invoicing across <strong>3 jurisdictions</strong> (Singapore, China, Vietnam) — the company's first international B2B transaction capability.</li>
+          <li>Bulk payables pipeline processing up to <strong>10K invoices/batch</strong> via RabbitMQ with idempotent retry logic.</li>
+          <li>Scaled RabbitMQ infrastructure to <strong>10M jobs/day</strong>, improving throughput latency by <strong>50%</strong>.</li>
+          <li>Integrated Razorpay payment APIs (UPI, cards) and built webhook-driven transaction tracking dashboard.</li>
+        </ul>
+      </div>
+      <div class="exp-period">Jul 2022 – Dec 2023</div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── OPEN SOURCE ── -->
+  <div class="section-label">// open source</div>
   <div class="project-list">
 
     <a href="/datapipe" class="project-card card-datapipe">
       <div class="card-header">
         <span class="card-name">datapipe</span>
-        <span class="card-arrow">→</span>
+        <span class="card-links">
+          <span class="card-link docs">Docs →</span>
+          <span class="card-link gh">github ↗</span>
+        </span>
       </div>
       <p class="card-desc">
-        Provider-agnostic data pipeline library for Go. Chain multi-source fetchers,
-        enrich in parallel, and observe every stage — with zero boilerplate.
+        Generic pipeline library for Go — chain multi-source fetchers with configurable fallback,
+        enrich entities in parallel via a bounded worker pool, and instrument every stage with
+        OpenTelemetry. Zero external dependencies.
       </p>
       <div class="card-tags">
         <span class="tag tag-go">Go</span>
         <span class="tag tag-open">Open Source</span>
-        <span class="tag tag-beta">v0.0.1</span>
+        <span class="tag tag-otel">OpenTelemetry</span>
       </div>
     </a>
 
     <a href="/billow" class="project-card card-billow">
       <div class="card-header">
         <span class="card-name">billow</span>
-        <span class="card-arrow">→</span>
+        <span class="card-links">
+          <span class="card-link docs" style="color:var(--accent2); border-color:rgba(91,196,245,0.25)">Docs →</span>
+          <span class="card-link gh">github ↗</span>
+        </span>
       </div>
       <p class="card-desc">
-        Subscription management library for Go SaaS backends. Abstract away Stripe,
-        Razorpay, and any payment gateway behind a single, type-safe interface.
+        Provider-agnostic subscription management for Go SaaS backends. One interface for Stripe,
+        Razorpay, or any gateway — with metered billing, webhook dispatch, plan caching, and metrics
+        hooks. Zero external dependencies.
       </p>
       <div class="card-tags">
         <span class="tag tag-go">Go</span>
         <span class="tag tag-open">Open Source</span>
-        <span class="tag tag-beta">v0.0.1</span>
       </div>
     </a>
 
@@ -292,11 +670,73 @@
 
   <div class="divider"></div>
 
+  <!-- ── WRITING ── -->
+  <div class="section-label">// writing</div>
+  <div class="writing-list">
+
+    <a href="/datapipe" class="writing-item">
+      <div class="writing-left">
+        <div class="writing-title">Build resilient data pipelines in Go — without the boilerplate</div>
+        <div class="writing-desc">Multi-source fetching, parallel enrichment, and observability hooks for data-intensive microservices.</div>
+      </div>
+      <div class="writing-meta">Mar 2026 · datapipe</div>
+    </a>
+
+    <a href="/billow" class="writing-item">
+      <div class="writing-left">
+        <div class="writing-title">Subscription billing that stays out of the way</div>
+        <div class="writing-desc">A provider-agnostic approach to SaaS billing in Go — one interface, any gateway.</div>
+      </div>
+      <div class="writing-meta">Mar 2026 · billow</div>
+    </a>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── SKILLS ── -->
+  <div class="section-label">// stack</div>
+  <div class="skills-grid">
+    <div class="skill-row">
+      <span class="skill-category">Languages</span>
+      <span class="skill-items">Go · PHP (Laravel) · Python · Kotlin · Ruby · SQL</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-category">Databases</span>
+      <span class="skill-items">PostgreSQL · TiDB · MySQL · Redis · Elasticsearch</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-category">Infra</span>
+      <span class="skill-items">Kafka · Kubernetes · Docker · AWS · GitHub Actions · Spinnaker</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-category">Observability</span>
+      <span class="skill-items">OpenTelemetry · Prometheus · Grafana · Sumologic · New Relic</span>
+    </div>
+    <div class="skill-row">
+      <span class="skill-category">Patterns</span>
+      <span class="skill-items">Microservices · Dual-Write Migration · Event-Driven · Distributed Tracing</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── CONTACT ── -->
+  <div class="contact-section">
+    <h2>Let's build something <em>solid</em></h2>
+    <p>Open to interesting problems in distributed systems, fintech infrastructure, or open-source collaboration.</p>
+    <div class="contact-links">
+      <a href="mailto:shivik2541@gmail.com" class="btn btn-primary">shivik2541@gmail.com</a>
+      <a href="https://github.com/nulllvoid" class="btn btn-ghost">GitHub ↗</a>
+      <a href="https://linkedin.com/in/shivam-shah-62a00b154" class="btn btn-ghost">LinkedIn ↗</a>
+    </div>
+  </div>
+
 </div>
 
 <footer>
+  <span>Shivam Shah · Bangalore</span>
   <span>github.com/nulllvoid</span>
-  <span>MIT License · Go 1.21+</span>
 </footer>
 
 </body>
